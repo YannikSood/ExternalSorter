@@ -10,6 +10,7 @@ public class BinaryParser {
         double value = 0.0;
         int i = 0;
         RandomAccessFile raf = new RandomAccessFile(fileName, "r");
+        
         while (i < 4096) {
             try {
                 key = raf.readLong();
