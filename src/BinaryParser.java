@@ -6,21 +6,20 @@ public class BinaryParser {
 
     public BinaryParser(String fileName) throws IOException {
 
-        long key = 0;
-        double value = 0.0;
-        int i = 0;
+        long key;
+        double value;
+        boolean i = true;
         RandomAccessFile raf = new RandomAccessFile(fileName, "r");
-        while (i < 4096) {
+        while (i) {
             try {
                 key = raf.readLong();
                 value = raf.readDouble();
                 System.out.println(key);
                 System.out.println(value);
 
-                i++;
             }
             catch (EOFException e) {
-                break;
+                i = false;
             }
 
         }
