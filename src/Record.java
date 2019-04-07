@@ -28,4 +28,9 @@ public class Record {
     public double getValue() {
         return value;
     }
+
+    public int compareTo(Record record) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 }
