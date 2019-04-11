@@ -6,7 +6,7 @@ public class HeapTest extends TestCase {
      * Unused Constructor
      */
     public HeapTest() {
-        //Unused
+        // setup
     }
     
     /**

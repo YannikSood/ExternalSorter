@@ -23,19 +23,20 @@
  */
 public class Heap {
     private Record[] minHeap;
-    private int size;
-    private int max;
+    private int max; // max size of heap
+    private int size; // no. elements in heap
 
 
     /**
-     * Heap Constructor
+     * Heap constructor
      * 
-     * @param maxsize
+     * @param rec       Record array
+     * @param maxSize   Size of record array
      */
     public Heap(Record[] rec, int maxSize) {
         this.max = maxSize;
-        this.size = rec.length;
-        minHeap = rec;
+        // this.size = rec.length; umm...
+        this.minHeap = rec; // minHeap is pointing to the array you passed in, careful???
         this.makeMinHeap();
     }
 
