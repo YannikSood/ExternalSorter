@@ -1,6 +1,3 @@
-import java.io.IOException;
-import java.util.Arrays;
-
 /**
  * A buffer. Read from and write to capabilities
  * 
@@ -27,12 +24,14 @@ import java.util.Arrays;
 public class Buffer implements BufferADT {
     private byte[] bufferArray;
     private static final int BUFFER_LENGTH = 8192;
+    private int size;
     // -------------------------------------------------------------------------
     /**
      * constructor for Buffer class
      * @param b the byte array that this buffer holds
      */
     public Buffer(byte[] buff) {
+        size = 0;
         if (buff != null && buff.length <= BUFFER_LENGTH) {
             bufferArray = new byte[BUFFER_LENGTH];
             setArray(buff);
@@ -45,7 +44,8 @@ public class Buffer implements BufferADT {
     public void setArray(byte[] buff) {
         for (int i = 0; i < buff.length; i++) {
             bufferArray[i] = buff[i];
-            System.out.println(bufferArray[i]);
+            size++;
+            System.out.print(bufferArray[i] + ", ");
         }
         
     }
@@ -57,5 +57,71 @@ public class Buffer implements BufferADT {
         return bufferArray;
     }
     
+    /**
+     * @return the current size of the array
+     */
+    public int getSize() {
+        return size;
+    }
+    
+    /**
+     * return the first 8 bytes 
+     * @return the key (long)
+     */
+    public byte[] getKey() {
+        byte[] temp = new byte[8];
+        for (int i = 0; i < 8; i++) {
+            temp[i] = bufferArray[i];
+        }
+        
+        return temp;
+    }
+    
+    /**
+     * Return the 8 bytes after the first 8
+     * @return the value (double)
+     */
+    public byte[] getVal() {
+        byte[] temp = new byte[8];
+        for (int i = 0; i < 8; i++) {
+            temp[i] = bufferArray[i + 8];
+        }
+        
+        return temp;
+    }
+    
+    /**
+     * Remove 16 bytes from the front
+     * of the buffer
+     * @return true if removed
+     */
+    public byte[] remove() {
+        byte[] temp = new byte[16];
+        for (int i = 0; i < 16; i++) {
+            temp[i] = bufferArray[i];
+            bufferArray[i] = 0;
+            size--;
+        }
+        
+        return temp;
+    }
+    
+    /**
+     * insert 16 bytes at the front of the buffer
+     * @param bytes the bytes to insert
+     * @return the position it was inserted
+     */
+    public int insert(byte[] bytes) {
+        int x = 0;
+        if (size < BUFFER_LENGTH - 16) {
+            for (int i = size; i < size + 16; i++) {
+                bufferArray[i] = bytes[x];
+                x++;
+            }
+            size = size + 16;
+            return size;
+        }
+        return -1;
+    }
     
 }

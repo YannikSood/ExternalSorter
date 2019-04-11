@@ -32,6 +32,7 @@ public class Heap {
      * 
      * @param rec       Record array
      * @param maxSize   Size of record array
+     * 
      */
     public Heap(Record[] rec, int maxSize) {
         this.max = maxSize;
