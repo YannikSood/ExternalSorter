@@ -31,11 +31,11 @@ public class BinaryParser_BytesVersion {
                 byte[] barr = bb.array();
                 
                 if (halfCount % 2 == 0) {
-                    System.out.print("ID: " + Arrays.toString(barr) + " aka ");
+                    System.out.print("ID: ");
                     System.out.println(Hex.encodeHex(barr));
                 }
                 else {
-                    System.out.print("Key: " + Arrays.toString(barr) + " aka ");
+                    System.out.print("Key: ");
                     System.out.println(Hex.encodeHex(barr));
                 }
             }
