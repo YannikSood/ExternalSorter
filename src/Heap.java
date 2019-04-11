@@ -43,6 +43,16 @@ public class Heap {
 
 
     /**
+     * get the size
+     * 
+     * @return size
+     */
+    public int getSize() {
+        return size;
+    }
+
+
+    /**
      * Insert element in heap
      * 
      * @param element
@@ -66,7 +76,7 @@ public class Heap {
      * @return minimum value
      */
     public Record remove() {
-        Record popped = minHeap[FRONT]; 
+        Record popped = minHeap[FRONT];
         minHeap[FRONT] = minHeap[size--];
         minHeapHelper(FRONT);
         return popped;
