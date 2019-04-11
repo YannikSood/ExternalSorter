@@ -11,8 +11,9 @@ public class Heap {
     private int maxSize; // max size of heap
     private int nHeap; // no. elements in heap
     
-    private BinaryParser_BytesVersion parse; // grabbing data for inputBuffer
-    private Buffer inputBuffer = new inputBuffer();
+    private BinaryParser parser; // grabbing data for buffer
+    // private Buffer inputBuffer = new Buffer();
+    // private Buffer outputBuffer = new Buffer();
 
 
     /**
