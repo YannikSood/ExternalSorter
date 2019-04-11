@@ -5,43 +5,34 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class BinaryParser_BytesVersion {
+    private Buffer inputBuffer;
+
 
     public BinaryParser_BytesVersion(String fileName) throws IOException {
-        int byteCount = 0;
-        int halfCount = 0;
-        
         RandomAccessFile raf = new RandomAccessFile(fileName, "r");
         Boolean endFile = false;
-        
+        byte[] temp = new byte[0];
+        inputBuffer = new Buffer(temp);
+
         while (!endFile) {
-            ByteBuffer bb = ByteBuffer.allocate(8);
-            
+            ByteBuffer bb = ByteBuffer.allocate(8192);
+
             try {
-                for (int i = 0; i < 8; i++) {
-                    byte b = raf.readByte(); // will jump to catch if fails
-                    
-                    bb.position(i);
+                for (int i = 0; i < 8192; i++) {
+                    byte b = raf.readByte(); // will jump to catch if fail
                     bb.put(b);
-                    byteCount++;
                 }
-                
-                halfCount++;
-                
                 byte[] barr = bb.array();
-                
-                if (halfCount % 2 == 0) {
-                    System.out.println("ID: " + Arrays.toString(barr)); 
-                }
-                else {
-                    System.out.println("Key: " + Arrays.toString(barr));
-                }
+                inputBuffer.setArray(barr);
+                 
             }
             catch (EOFException e) {
+                
                 endFile = true;
             }
 
         }
-        
+
         raf.close();
     }
 }
