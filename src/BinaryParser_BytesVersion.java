@@ -1,39 +1,66 @@
 import java.io.EOFException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class BinaryParser_BytesVersion {
-    private Buffer inputBuffer;
+    private RandomAccessFile raf;
+    private Boolean endFile;
+    private int currByte;
 
-
+    /**
+     * 
+     * 
+     * @param fileName
+     * @throws IOException
+     */
     public BinaryParser_BytesVersion(String fileName) throws IOException {
-        RandomAccessFile raf = new RandomAccessFile(fileName, "r");
-        Boolean endFile = false;
-        byte[] temp = new byte[0];
-        inputBuffer = new Buffer(temp);
+        try {
+            this.raf = new RandomAccessFile(fileName, "r");
+            this.endFile = false;
+            this.currByte = 0;
+            this.getBlock();
+        }
+        catch (FileNotFoundException e) {
+            this.endFile = true;
+            this.raf.close();
+        }
+    }
+    
+    /**
+     * 
+     * 
+     * @return
+     * @throws IOException
+     */
+    public byte[] getBlock() throws IOException {
+        ByteBuffer bb = ByteBuffer.allocate(8192);
 
-        while (!endFile) {
-            ByteBuffer bb = ByteBuffer.allocate(8192);
+        try {
+            // grab a block of bytes
+            for (int i = 0; i < 8192; i++) {
+                byte b = raf.readByte(); // will jump to catch if fail
+                currByte++;
+                bb.put(b);
+            }
 
-            try {
-                for (int i = 0; i < 8192; i++) {
-                    byte b = raf.readByte(); // will jump to catch if fail
-                    bb.put(b);
-                }
-                
-                byte[] barr = bb.array();
-                inputBuffer.setArray(barr);
-                 
-            }
-            catch (EOFException e) {
-                
-                endFile = true;
-            }
+            // place it into an array (not really needed but whatever)
+            byte[] barr = bb.array();
+
+            // return a reference to this array
+            System.out.println(Arrays.toString(barr));
+            return barr;
 
         }
-
-        raf.close();
+        catch (EOFException e) { // end of file
+            endFile = true;
+            raf.close();
+            
+            byte[] barr = bb.array();
+            System.out.println(Arrays.toString(barr));
+            return barr;
+        }
     }
 }

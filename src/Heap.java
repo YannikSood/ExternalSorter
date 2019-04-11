@@ -7,23 +7,46 @@
  */
 public class Heap {
     private Record[] minHeap;
-    private int max; // max size of heap
-    private int size; // no. elements in heap
+    private Byte[] currBlock;
+    private int maxSize; // max size of heap
+    private int nHeap; // no. elements in heap
+    
+    private BinaryParser_BytesVersion parse; // grabbing data for inputBuffer
+    private Buffer inputBuffer = new inputBuffer();
 
 
     /**
-     * Heap constructor
      * 
-     * @param rec       Record array
-     * @param maxSize   Size of record array
+     * 
+     * @param byteArray     Array containing bytes from 1 block
+     * @param n             Number of elements in the byte array
      */
-    public Heap(Record[] rec, int maxSize, int n) {
-        this.max = maxSize;
-        this.size = n;
-        this.minHeap = rec; // minHeap is pointing to the buffer array
+    public Heap(Byte[] byteArray, int n) {
+        this.maxSize = 512 * 8;
+        
+        this.minHeap = new Record[maxSize];
+        this.currBlock = byteArray;
+        
+        // populate the heap with records
+        
+        
+        // heapify
         this.makeMinHeap();
     }
 
+    // Return true if pos a leaf position, false otherwise
+    boolean isLeaf(int pos) {
+        return (pos >= nHeap/2) && (pos < nHeap); 
+    }
+    
+    // Return position for left child of pos
+    int leftchild(int pos) {
+      if (pos >= n/2) {
+          return -1;
+      }
+      
+      return 2*pos + 1;
+    }
 
     /**
      * get the size
@@ -31,7 +54,7 @@ public class Heap {
      * @return size
      */
     public int getSize() {
-        return size;
+        return nHeap;
     }
 
 
@@ -42,13 +65,14 @@ public class Heap {
      *            to insert
      */
     public void insert(Record record) {
-        if (size >= max) {
+        if (nHeap >= maxSize) {
             System.out.println("Heap Full");
             return;
         }
-        minHeap[++size] = record;
-        int current = size;
-
+        
+        int curr = nHeap++;
+        minHeap[curr] = record;
+        
         while (minHeap[current].getValue() < minHeap[getParentPos(current)]
             .getValue()) {
             swapNodes(current, getParentPos(current));
