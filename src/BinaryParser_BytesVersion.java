@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
-import org.apache.commons.codec.binary.Hex;
 
 public class BinaryParser_BytesVersion {
 
