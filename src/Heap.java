@@ -32,11 +32,11 @@ public class Heap {
      * 
      * @param maxsize
      */
-    public Heap(int maxSize) {
+    public Heap(Record[] rec, int maxSize) {
         this.max = maxSize;
-        this.size = 0;
-        minHeap = new Record[this.max + 1];
-        minHeap[0] = null;
+        this.size = rec.length;
+        minHeap = rec;
+        this.makeMinHeap();
     }
 
 
@@ -57,6 +57,10 @@ public class Heap {
      *            to insert
      */
     public void insert(Record record) {
+        if (size >= max) {
+            System.out.println("Heap Full");
+            return;
+        }
         minHeap[++size] = record;
         int current = size;
 
@@ -73,7 +77,7 @@ public class Heap {
      * 
      * @return minimum value
      */
-    public Record remove() {
+    public Record removeMin() {
         Record popped = minHeap[1];
         minHeap[1] = minHeap[size--];
         minHeapHelper(1);
