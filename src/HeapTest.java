@@ -8,13 +8,13 @@ public class HeapTest extends TestCase {
     public HeapTest() {
         //Unused
     }
+    
     /**
      * Set Up the test case
      */
     public void setUp() {
         
     }
-
 
     /**
      * 
