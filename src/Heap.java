@@ -26,8 +26,6 @@ public class Heap {
     private int size;
     private int max;
 
-    private static final int FRONT = 1;
-
 
     /**
      * Heap Constructor
@@ -62,10 +60,10 @@ public class Heap {
         minHeap[++size] = record;
         int current = size;
 
-        while (minHeap[current].getValue() < minHeap[getParent(current)]
+        while (minHeap[current].getValue() < minHeap[getParentPos(current)]
             .getValue()) {
-            swapNodes(current, getParent(current));
-            current = getParent(current);
+            swapNodes(current, getParentPos(current));
+            current = getParentPos(current);
         }
     }
 
@@ -76,9 +74,9 @@ public class Heap {
      * @return minimum value
      */
     public Record remove() {
-        Record popped = minHeap[FRONT];
-        minHeap[FRONT] = minHeap[size--];
-        minHeapHelper(FRONT);
+        Record popped = minHeap[1];
+        minHeap[1] = minHeap[size--];
+        minHeapHelper(1);
         return popped;
     }
 
@@ -93,36 +91,41 @@ public class Heap {
     }
 
 
-    // Function to heapify the node at pos
+    /**
+     * Helper to make the min heap
+     * 
+     * @param pos
+     *            node to heapify
+     */
     private void minHeapHelper(int pos) {
 
-        // If the node is a non-leaf node and greater
-        // than any of its child
         if (!(pos >= (size / 2) && pos <= size)) {
-            if (minHeap[pos].getValue() > minHeap[getLeftChild(pos)].getValue()
-                || minHeap[pos].getValue() > minHeap[getRightChild(pos)]
-                    .getValue()) {
-
-                // Swap with the left child and heapify
-                // the left child
-                if (minHeap[getLeftChild(pos)]
-                    .getValue() < minHeap[getRightChild(pos)].getValue()) {
-                    swapNodes(pos, getLeftChild(pos));
-                    minHeapHelper(getLeftChild(pos));
+            if (minHeap[pos].getValue() > minHeap[getLeftChildPos(pos)]
+                .getValue() || minHeap[pos]
+                    .getValue() > minHeap[getRightChildPos(pos)].getValue()) {
+                if (minHeap[getLeftChildPos(pos)]
+                    .getValue() < minHeap[getRightChildPos(pos)].getValue()) {
+                    swapNodes(pos, getLeftChildPos(pos));
+                    minHeapHelper(getLeftChildPos(pos));
                 }
 
-                // Swap with the right child and heapify
-                // the right child
                 else {
-                    swapNodes(pos, getRightChild(pos));
-                    minHeapHelper(getRightChild(pos));
+                    swapNodes(pos, getRightChildPos(pos));
+                    minHeapHelper(getRightChildPos(pos));
                 }
             }
         }
     }
 
 
-    // Function to swap two nodes of the heap
+    /**
+     * Swap two nodes
+     * 
+     * @param first
+     *            node
+     * @param second
+     *            node
+     */
     private void swapNodes(int first, int second) {
         Record temp = minHeap[first];
         minHeap[first] = minHeap[second];
@@ -130,26 +133,39 @@ public class Heap {
     }
 
 
-    // Function to return the position of
-    // the parent for the node currently
-    // at pos
-    private int getParent(int pos) {
+    /**
+     * Get the parent pos
+     * 
+     * @param pos
+     *            node pos
+     * @return parent pos
+     */
+    private int getParentPos(int pos) {
         return pos / 2;
     }
 
 
-    // Function to return the position of the
-    // left child for the node currently at pos
-    private int getLeftChild(int pos) {
-        return (2 * pos);
+    /**
+     * Get left child pos
+     * 
+     * @param pos
+     *            curr pos
+     * @return left child pos
+     */
+    private int getLeftChildPos(int pos) {
+        return pos * 2;
     }
 
 
-    // Function to return the position of
-    // the right child for the node currently
-    // at pos
-    private int getRightChild(int pos) {
-        return (2 * pos) + 1;
+    /**
+     * Get right child pos
+     * 
+     * @param pos
+     *            curr node
+     * @return right child pos
+     */
+    private int getRightChildPos(int pos) {
+        return (pos * 2) + 1;
     }
 
 }
