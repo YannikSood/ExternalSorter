@@ -22,6 +22,7 @@ public class BinaryParser_BytesVersion {
                     byte b = raf.readByte(); // will jump to catch if fail
                     bb.put(b);
                 }
+                
                 byte[] barr = bb.array();
                 inputBuffer.setArray(barr);
                  

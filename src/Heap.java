@@ -1,21 +1,5 @@
 /**
- * A Min Heap that stores records of key/value pairs
  * 
- *
- * 
- * * // On my honor: // // - I have not used source code obtained from
- * another student, // or any other unauthorized source, either modified
- * or // unmodified. // // - All source code and documentation used in
- * my program is // either my original work, or was derived by me from
- * the // source code published in the textbook for this course. // // -
- * I have not discussed coding details about this project with // anyone
- * other than my partner (in the case of a joint // submission),
- * instructor, ACM/UPE tutors or the TAs assigned // to this course. I
- * understand that I may discuss the concepts // of this program with
- * other students, and that another student // may help me debug my
- * program so long as neither of us writes // anything during the
- * discussion or modifies any computer file // during the discussion. I
- * have violated neither the spirit nor // letter of this restriction.
  *
  * @author <Yannik Sood> <yannik24>
  * @version 04.10.19
@@ -33,10 +17,10 @@ public class Heap {
      * @param rec       Record array
      * @param maxSize   Size of record array
      */
-    public Heap(Record[] rec, int maxSize) {
+    public Heap(Record[] rec, int maxSize, int n) {
         this.max = maxSize;
-        // this.size = rec.length; umm...
-        this.minHeap = rec; // minHeap is pointing to the array you passed in, careful???
+        this.size = n;
+        this.minHeap = rec; // minHeap is pointing to the buffer array
         this.makeMinHeap();
     }
 
