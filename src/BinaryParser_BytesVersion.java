@@ -21,7 +21,7 @@ public class BinaryParser_BytesVersion {
             this.raf = new RandomAccessFile(fileName, "r");
             this.endFile = false;
             this.currByte = 0;
-            this.getBlock();
+            // this.getBlock(); // for testing
         }
         catch (FileNotFoundException e) {
             this.endFile = true;
@@ -46,7 +46,7 @@ public class BinaryParser_BytesVersion {
                 bb.put(b);
             }
 
-            // place it into an array (not really needed but whatever)
+            // place it into an array
             byte[] barr = bb.array();
 
             // return a reference to this array
