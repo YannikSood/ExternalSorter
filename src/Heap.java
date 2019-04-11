@@ -1,21 +1,5 @@
 /**
- * A Min Heap that stores records of key/value pairs
- * 
  *
- * 
- * * // On my honor: // // - I have not used source code obtained from
- * another student, // or any other unauthorized source, either modified
- * or // unmodified. // // - All source code and documentation used in
- * my program is // either my original work, or was derived by me from
- * the // source code published in the textbook for this course. // // -
- * I have not discussed coding details about this project with // anyone
- * other than my partner (in the case of a joint // submission),
- * instructor, ACM/UPE tutors or the TAs assigned // to this course. I
- * understand that I may discuss the concepts // of this program with
- * other students, and that another student // may help me debug my
- * program so long as neither of us writes // anything during the
- * discussion or modifies any computer file // during the discussion. I
- * have violated neither the spirit nor // letter of this restriction.
  *
  * @author <Yannik Sood> <yannik24>
  * @version 04.10.19
@@ -23,48 +7,72 @@
  */
 public class Heap {
     private Record[] minHeap;
-    private int max; // max size of heap
-    private int size; // no. elements in heap
+    private Byte[] currBlock;
+    private int maxSize; // max size of heap
+    private int nHeap; // no. elements in heap
+
+    private BinaryParser parser; // grabbing data for buffer
+    // private Buffer inputBuffer = new Buffer();
+    // private Buffer outputBuffer = new Buffer();
 
 
     /**
-     * Heap constructor
-     * 
-     * @param rec       Record array
-     * @param maxSize   Size of record array
-     * 
+     *
+     *
+     * @param byteArray     Array containing bytes from 1 block
+     * @param n             Number of elements in the byte array
      */
-    public Heap(Record[] rec, int maxSize) {
-        this.max = maxSize;
-        // this.size = rec.length; umm...
-        this.minHeap = rec; // minHeap is pointing to the array you passed in, careful???
+    public Heap(Byte[] byteArray, int n) {
+        this.maxSize = 512 * 8;
+
+        this.minHeap = new Record[maxSize];
+        this.currBlock = byteArray;
+
+        // populate the heap with records
+
+
+        // heapify
         this.makeMinHeap();
     }
 
+    // Return true if pos a leaf position, false otherwise
+    boolean isLeaf(int pos) {
+        return (pos >= nHeap/2) && (pos < nHeap);
+    }
+
+    // Return position for left child of pos
+    int leftchild(int pos) {
+      if (pos >= n/2) {
+          return -1;
+      }
+
+      return 2*pos + 1;
+    }
 
     /**
      * get the size
-     * 
+     *
      * @return size
      */
     public int getSize() {
-        return size;
+        return nHeap;
     }
 
 
     /**
      * Insert element in heap
-     * 
+     *
      * @param element
      *            to insert
      */
     public void insert(Record record) {
-        if (size >= max) {
+        if (nHeap >= maxSize) {
             System.out.println("Heap Full");
             return;
         }
-        minHeap[++size] = record;
-        int current = size;
+
+        int curr = nHeap++;
+        minHeap[curr] = record;
 
         while (minHeap[current].getValue() < minHeap[getParentPos(current)]
             .getValue()) {
@@ -76,7 +84,7 @@ public class Heap {
 
     /**
      * Remove min value
-     * 
+     *
      * @return minimum value
      */
     public Record removeMin() {
@@ -99,7 +107,7 @@ public class Heap {
 
     /**
      * Helper to make the min heap
-     * 
+     *
      * @param pos
      *            node to heapify
      */
@@ -126,7 +134,7 @@ public class Heap {
 
     /**
      * Swap two nodes
-     * 
+     *
      * @param first
      *            node
      * @param second
@@ -141,7 +149,7 @@ public class Heap {
 
     /**
      * Get the parent pos
-     * 
+     *
      * @param pos
      *            node pos
      * @return parent pos
@@ -153,7 +161,7 @@ public class Heap {
 
     /**
      * Get left child pos
-     * 
+     *
      * @param pos
      *            curr pos
      * @return left child pos
@@ -165,7 +173,7 @@ public class Heap {
 
     /**
      * Get right child pos
-     * 
+     *
      * @param pos
      *            curr node
      * @return right child pos
