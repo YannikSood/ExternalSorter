@@ -19,6 +19,7 @@ public class Heap {
      */
     public Heap(Byte[] byteArray, int n) {
         this.maxSize = 512 * 8;
+        this.nHeap = 0;
 
         this.minHeap = new Record[maxSize];
         this.currBlock = byteArray;
@@ -36,15 +37,25 @@ public class Heap {
      * @return size
      */
     public int getSize() {
-        return nHeap;
+        return this.nHeap;
     }
 
-    // Return true if pos a leaf position, false otherwise
+    /**
+     * Return true if pos a leaf position, false otherwise
+     * 
+     * @param pos
+     * @return
+     */
     boolean isLeaf(int pos) {
         return (pos >= nHeap/2) && (pos < nHeap);
     }
 
-    // Return position for left child of pos
+    /**
+     * Return position for left child of pos
+     * 
+     * @param pos
+     * @return
+     */
     int leftChild(int pos) {
         if (pos >= nHeap/2) {
             return -1;
@@ -54,7 +65,7 @@ public class Heap {
     }
 
     /**
-     * 
+     * Return position for right child of pos
      * 
      * @param pos
      * @return
@@ -67,7 +78,7 @@ public class Heap {
     }
     
     /**
-     * 
+     * Return position for parent
      * 
      * @param pos
      * @return
@@ -92,12 +103,13 @@ public class Heap {
             return;
         }
 
-        int curr = nHeap++;
+        int curr = nHeap++; // this assigns current nHeap then increments
         minHeap[curr] = record; // start at end of heap
 
-        while (minHeap[curr].getValue() < minHeap[parent(curr)].getValue()) {
-            swapNodes(current, getParentPos(current));
-            current = getParentPos(current);
+        // sifting down
+        while ((curr != 0) && minHeap[curr].compareTo(minHeap[parent(curr)]) < 0) {
+            swapNodes(curr, parent(curr));
+            curr = parent(curr);
         }
     }
 
