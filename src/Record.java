@@ -39,10 +39,8 @@ public class Record {
      * @return
      */
     public int compareTo(Record record) {
-<<<<<<< HEAD
         // TODO Auto-generated method stub
         return 0;
-=======
         // conversions
         char[] temp = Hex.encodeHex(this.value);
         String thisKey = temp.toString();
@@ -52,6 +50,5 @@ public class Record {
         
         // comparison
         return thisKey.compareTo(recordKey);
->>>>>>> parent of 2d548a3... Logic fix in compareTo
     }
 }
