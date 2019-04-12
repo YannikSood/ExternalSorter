@@ -58,9 +58,19 @@ public class BinaryParser {
             endFile = true;
             raf.close();
             
+            // this will happen if the bytes were less than a block long
             byte[] barr = bb.array();
             System.out.println(Arrays.toString(barr));
             return barr;
         }
+    }
+    
+    /**
+     * Return the current position of the parser.
+     * 
+     * @return
+     */
+    public int getParserPos() {
+        return this.currByte;
     }
 }
