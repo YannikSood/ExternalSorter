@@ -70,7 +70,7 @@ public class BinaryParser {
      * 
      * @return
      */
-    public int getParserPos() {
+    public int getCurrByte() {
         return this.currByte;
     }
     
