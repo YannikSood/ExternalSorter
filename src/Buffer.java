@@ -44,8 +44,9 @@ public class Buffer implements BufferADT {
     public void setArray(byte[] buff) {
         for (int i = 0; i < buff.length; i++) {
             bufferArray[i] = buff[i];
+            size++;
+            System.out.print(bufferArray[i] + ", ");
         }
-        size = buff.length;
         
     }
     

@@ -24,7 +24,7 @@ public class ExternalSorter {
     private Buffer inputBuffer;
     private Buffer outputBuffer;
     private Heap minHeap;
-    private BinaryParser parser;
+    private BinaryParser_BytesVersion parser;
     
     /**
      * Constructor

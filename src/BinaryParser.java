@@ -39,7 +39,7 @@ public class BinaryParser {
         ByteBuffer bb = ByteBuffer.allocate(8192);
 
         try {
-            // grab a block of byte
+            // grab a block of bytes
             for (int i = 0; i < 8192; i++) {
                 byte b = raf.readByte(); // will jump to catch if fail
                 currByte++;
