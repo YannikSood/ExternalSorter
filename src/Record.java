@@ -44,7 +44,7 @@ public class Record {
      */
     public int compareTo(Record record) {
         // conversions
-        char[] temp = Hex.encodeHex(this.value);
+        char[] temp = Hex.encodeHex(this.key);
         String thisKey = temp.toString();
         
         temp = Hex.encodeHex(record.getKey());
