@@ -60,6 +60,9 @@ public class BinaryParser {
             
             // this will run if not a full block
             byte[] barr = bb.array();
+            
+            // we can use currByte to grab up to where data ends
+            // if we need to
             System.out.println(Arrays.toString(barr));
             return barr;
         }
