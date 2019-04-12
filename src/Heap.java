@@ -37,7 +37,7 @@ public class Heap {
     }
 
     /**
-     * get the size
+     * Return heap size.
      *
      * @return size
      */
