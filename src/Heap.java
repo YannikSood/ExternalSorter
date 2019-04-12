@@ -1,3 +1,5 @@
+import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
+
 /**
  * Heap class as implemented on Canvas, adjusted for minHeap.
  *
@@ -7,9 +9,17 @@
  */
 public class Heap {
     private Record[] minHeap;
-    private Byte[] currBlock;
     private int maxSize; // max size of heap
     private int nHeap; // no. elements in heap
+    
+    /**
+     * Creates an empty Heap.
+     */
+   public Heap() {
+       this.maxSize = 512 * 8;
+       this.minHeap = new Record[maxSize];
+       this.nHeap = 0;
+   }
 
     /**
      *
@@ -21,12 +31,30 @@ public class Heap {
         this.maxSize = 512 * 8;
         this.minHeap = new Record[maxSize];
         this.nHeap = 0;
+
+        // create records
+        byte[] key = new byte[8];
+        byte[] value = new byte[8];
+        int byteCount = 0;
+        int recordCount = 0;
         
-        this.currBlock = byteArray; // currBlock points to byteArray passed in
-
-        // populate the heap with records
-
-
+        while (byteCount < n) {
+            // grab key
+            for (int i = 0; i < 8; i++) {
+                key[byteCount] = byteArray[byteCount];
+                byteCount++;
+            }
+            
+            // grab value
+            for (int i = 0; i < 8; i++) {
+                value[byteCount] = byteArray[byteCount];
+                byteCount++;
+            }
+            
+            // assign record
+            minHeap[recordCount++] = new Record(key, value);
+        }
+        
         // heapify
         this.makeMinHeap();
     }
@@ -187,7 +215,7 @@ public class Heap {
     }
 
     /**
-     * Make the heap a min heap
+     * Heapify contents of the Heap. Will do nothing on empty Heap.
      */
     public void makeMinHeap() {
         for (int i = (nHeap / 2) - 1; i >= 0; i--) {

@@ -1,19 +1,13 @@
 import student.TestCase;
 
 public class HeapTest extends TestCase {
-
-    /**
-     * Unused Constructor
-     */
-    public HeapTest() {
-        // setup
-    }
+    private Heap heap;
     
     /**
      * Set Up the test case
      */
     public void setUp() {
-        
+        this.heap = new Heap(); // empty heap
     }
 
     /**

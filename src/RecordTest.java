@@ -10,6 +10,7 @@ import student.TestCase;
 public class RecordTest extends TestCase {
     private Record rec1;
     private Record rec2;
+    private Record rec3;
     
     /**
      * Setup class for Record
@@ -19,9 +20,11 @@ public class RecordTest extends TestCase {
         byte[] value1 = new byte[] {74, -1, 102, -38, 10, 58, 66, -3};
         byte[] key2 = new byte[] {16, 61, 103, 74, 12, -77, 25, 65};
         byte[] value2 = new byte[] {58, 121, 114, 105, 108, 23, 64, -83};
+        byte[] max = new byte[] {-1, -1, -1, -1, -1, -1, -1, -1};
         
         this.rec1 = new Record(key1, value1);
         this.rec2 = new Record(key2, value2);
+        this.rec3 = new Record(max, value2);
     }
     
     /**
@@ -47,6 +50,8 @@ public class RecordTest extends TestCase {
         assertTrue(rec1.compareTo(rec2) > 0);
         assertTrue(rec2.compareTo(rec1) < 0);
         assertEquals(rec1.compareTo(rec1), 0);
+        assertTrue(rec1.compareTo(rec3) < 0);
+        assertEquals(rec3.compareTo(rec3), 0);
     }
 
 }

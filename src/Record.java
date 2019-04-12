@@ -46,14 +46,14 @@ public class Record {
         char[] temp = Hex.encodeHex(this.key);
         String thisKey = String.valueOf(temp);
         
-        //System.out.print("Key: ");
-        //System.out.println(thisKey);
+        System.out.print("Key: ");
+        System.out.println(thisKey);
         
         temp = Hex.encodeHex(rec.getKey());
         String recordKey = String.valueOf(temp);
         
-        //System.out.print("Value: ");
-        //System.out.println(recordKey);
+        System.out.print("Value: ");
+        System.out.println(recordKey);
         
         // comparison
         return thisKey.compareTo(recordKey);
