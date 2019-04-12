@@ -44,13 +44,15 @@ public class Record {
     public int compareTo(Record rec) {
         // conversions
         char[] temp = Hex.encodeHex(this.key);
-        //System.out.print("Key: ");
         String thisKey = String.valueOf(temp);
+        
+        //System.out.print("Key: ");
         //System.out.println(thisKey);
         
         temp = Hex.encodeHex(rec.getKey());
-        //System.out.print("Value: ");
         String recordKey = String.valueOf(temp);
+        
+        //System.out.print("Value: ");
         //System.out.println(recordKey);
         
         // comparison
