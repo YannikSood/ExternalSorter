@@ -19,8 +19,10 @@ public class Heap {
     /**
      *
      *
-     * @param byteArray     Array containing bytes from 1 block
-     * @param n             Number of elements in the byte array
+     * @param byteArray
+     *            Array containing bytes from 1 block
+     * @param n
+     *            Number of elements in the byte array
      */
     public Heap(Byte[] byteArray, int n) {
         this.maxSize = 512 * 8;
@@ -30,24 +32,25 @@ public class Heap {
 
         // populate the heap with records
 
-
         // heapify
         this.makeMinHeap();
     }
 
+
     // Return true if pos a leaf position, false otherwise
     boolean isLeaf(int pos) {
-        return (pos >= nHeap/2) && (pos < nHeap);
+        return (pos >= nHeap / 2) && (pos < nHeap);
     }
+
 
     // Return position for left child of pos
-    int leftchild(int pos) {
-      if (pos >= n/2) {
-          return -1;
-      }
-
-      return 2*pos + 1;
-    }
+// int leftchild(int pos) {
+// if (pos >= n/2) {
+// return -1;
+// }
+//
+// return 2*pos + 1;
+// }
 
     /**
      * get the size
@@ -58,40 +61,39 @@ public class Heap {
         return nHeap;
     }
 
-
     /**
      * Insert element in heap
      *
      * @param element
      *            to insert
      */
-    public void insert(Record record) {
-        if (nHeap >= maxSize) {
-            System.out.println("Heap Full");
-            return;
-        }
-
-        int curr = nHeap++;
-        minHeap[curr] = record;
-
-        while (minHeap[current].getValue() < minHeap[getParentPos(current)]
-            .getValue()) {
-            swapNodes(current, getParentPos(current));
-            current = getParentPos(current);
-        }
-    }
-
-
-    /**
-     * Remove min value
-     *
-     * @return minimum value
-     */
-    public Record removeMin() {
-        Record popped = minHeap[1];
-        minHeap[1] = minHeap[size--];
-        minHeapHelper(1);
-        return popped;
+// public void insert(Record record) {
+// if (nHeap >= maxSize) {
+// System.out.println("Heap Full");
+// return;
+// }
+//
+// int curr = nHeap++;
+// minHeap[curr] = record;
+//
+//// while (minHeap[current].getValue() < minHeap[getParentPos(current)]
+// .getValue()) {
+// swapNodes(current, getParentPos(current));
+// current = getParentPos(current);
+// }
+// }
+//
+//
+// /**
+// * Remove min value
+// *
+// * @return minimum value
+// */
+// public Record removeMin() {
+// Record popped = minHeap[1];
+// minHeap[1] = minHeap[size--];
+// minHeapHelper(1);
+// return popped;
     }
 
 
@@ -99,7 +101,8 @@ public class Heap {
      * Make the heap a min heap
      */
     public void makeMinHeap() {
-        for (int i = (size / 2); i >= 1; i--) {
+        for (int i = (nHeap / 2); i >= 1; i--) {
+
             minHeapHelper(i);
         }
     }
@@ -113,22 +116,21 @@ public class Heap {
      */
     private void minHeapHelper(int pos) {
 
-        if (!(pos >= (size / 2) && pos <= size)) {
-            if (minHeap[pos].getValue() > minHeap[getLeftChildPos(pos)]
-                .getValue() || minHeap[pos]
-                    .getValue() > minHeap[getRightChildPos(pos)].getValue()) {
-                if (minHeap[getLeftChildPos(pos)]
-                    .getValue() < minHeap[getRightChildPos(pos)].getValue()) {
-                    swapNodes(pos, getLeftChildPos(pos));
-                    minHeapHelper(getLeftChildPos(pos));
-                }
+// if (!(pos >= (size / 2) && pos <= size)) {
+// if (minHeap[pos].getValue() > minHeap[getLeftChildPos(pos)]
+// // .getValue() || minHeap[pos]
+// .getValue() > minHeap[getRightChildPos(pos)].getValue()) {
+// if (minHeap[getLeftChildPos(pos)]
+// .getValue() < minHeap[getRightChildPos(pos)].getValue()) {
+// swapNodes(pos, getLeftChildPos(pos));
+// minHeapHelper(getLeftChildPos(pos));
+// }
+//
+// else {
+// swapNodes(pos, getRightChildPos(pos));
+// minHeapHelper(getRightChildPos(pos));
+// }
 
-                else {
-                    swapNodes(pos, getRightChildPos(pos));
-                    minHeapHelper(getRightChildPos(pos));
-                }
-            }
-        }
     }
 
 
