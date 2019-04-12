@@ -7,13 +7,15 @@ import student.TestCase;
 public class BufferTest extends TestCase {
     private Buffer buffer;
     private byte[] bytes;
-    
+
+
     public void setUp() {
 
-        bytes = new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
         buffer = new Buffer(bytes);
     }
-    
+
+
     /**
      * test constructor
      */
@@ -29,32 +31,36 @@ public class BufferTest extends TestCase {
         assertEquals(buffer.getArray()[8], 9);
         assertEquals(buffer.getArray()[9], 10);
     }
-    
+
+
     /**
      * test constructor
      */
     public void testSet() {
-        bytes = new byte[]{4, 3, 2};
+        bytes = new byte[] { 4, 3, 2 };
         buffer.setArray(bytes);
         assertEquals(buffer.getArray()[0], 4);
         assertEquals(buffer.getArray()[1], 3);
         assertEquals(buffer.getArray()[2], 2);
     }
-    
+
+
     /**
      * test constructor
      */
     public void testSize() {
-        bytes = new byte[]{4, 3, 2};
+        bytes = new byte[] { 4, 3, 2 };
         buffer.setArray(bytes);
         assertEquals(buffer.getSize(), 3);
     }
-    
+
+
     /**
      * test constructor
      */
     public void testGetKey() {
-        bytes = new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+        bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+            16, 17, 18, 19, 20 };
         buffer.setArray(bytes);
         assertEquals(buffer.getKey()[0], 1);
         assertEquals(buffer.getKey()[1], 2);
@@ -65,12 +71,14 @@ public class BufferTest extends TestCase {
         assertEquals(buffer.getKey()[6], 7);
         assertEquals(buffer.getKey()[7], 8);
     }
-    
+
+
     /**
      * test constructor
      */
     public void testGetVal() {
-        bytes = new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+        bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+            16, 17, 18, 19, 20 };
         buffer.setArray(bytes);
         assertEquals(buffer.getVal()[0], 9);
         assertEquals(buffer.getVal()[1], 10);
@@ -81,12 +89,15 @@ public class BufferTest extends TestCase {
         assertEquals(buffer.getVal()[6], 15);
         assertEquals(buffer.getVal()[7], 16);
     }
-    
+
+
     /**
      * test constructor
      */
     public void testRemove() {
-        bytes = new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32};
+        bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+            16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+            32 };
         buffer.setArray(bytes);
         assertEquals(buffer.getSize(), 32);
         byte[] x = buffer.remove();
@@ -127,6 +138,5 @@ public class BufferTest extends TestCase {
         assertEquals(y[15], 32);
         assertEquals(buffer.remove(), null);
     }
-    
-}
 
+}
