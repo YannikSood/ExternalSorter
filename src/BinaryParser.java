@@ -64,4 +64,13 @@ public class BinaryParser {
             return barr;
         }
     }
+    
+    /**
+     * Return the current position of the parser.
+     * 
+     * @return
+     */
+    public int getParserPos() {
+        return this.currByte;
+    }
 }

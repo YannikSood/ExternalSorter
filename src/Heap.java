@@ -1,5 +1,5 @@
 /**
- *
+ * Heap class as implemented on Canvas, adjusted for minHeap.
  *
  * @author <Yannik Sood> <yannik24>
  * @version 04.10.19
@@ -10,11 +10,6 @@ public class Heap {
     private Byte[] currBlock;
     private int maxSize; // max size of heap
     private int nHeap; // no. elements in heap
-
-    private BinaryParser parser; // grabbing data for buffer
-    // private Buffer inputBuffer = new Buffer();
-    // private Buffer outputBuffer = new Buffer();
-
 
     /**
      *
@@ -34,21 +29,7 @@ public class Heap {
         // heapify
         this.makeMinHeap();
     }
-
-    // Return true if pos a leaf position, false otherwise
-    boolean isLeaf(int pos) {
-        return (pos >= nHeap/2) && (pos < nHeap);
-    }
-
-    // Return position for left child of pos
-    int leftchild(int pos) {
-      if (pos >= n/2) {
-          return -1;
-      }
-
-      return 2*pos + 1;
-    }
-
+    
     /**
      * get the size
      *
@@ -58,6 +39,46 @@ public class Heap {
         return nHeap;
     }
 
+    // Return true if pos a leaf position, false otherwise
+    boolean isLeaf(int pos) {
+        return (pos >= nHeap/2) && (pos < nHeap);
+    }
+
+    // Return position for left child of pos
+    int leftChild(int pos) {
+        if (pos >= nHeap/2) {
+            return -1;
+        }
+
+        return 2*pos + 1;
+    }
+
+    /**
+     * 
+     * 
+     * @param pos
+     * @return
+     */
+    int rightChild(int pos) {
+
+        if (pos >= (nHeap-1)/2) return -1;
+
+        return 2*pos + 2;
+    }
+    
+    /**
+     * 
+     * 
+     * @param pos
+     * @return
+     */
+    int parent(int pos) {
+        if (pos <= 0) {
+            return -1;
+        }
+
+        return (pos-1)/2;
+    }
 
     /**
      * Insert element in heap
@@ -72,15 +93,13 @@ public class Heap {
         }
 
         int curr = nHeap++;
-        minHeap[curr] = record;
+        minHeap[curr] = record; // start at end of heap
 
-        while (minHeap[current].getValue() < minHeap[getParentPos(current)]
-            .getValue()) {
+        while (minHeap[curr].getValue() < minHeap[parent(curr)].getValue()) {
             swapNodes(current, getParentPos(current));
             current = getParentPos(current);
         }
     }
-
 
     /**
      * Remove min value
@@ -144,42 +163,6 @@ public class Heap {
         Record temp = minHeap[first];
         minHeap[first] = minHeap[second];
         minHeap[second] = temp;
-    }
-
-
-    /**
-     * Get the parent pos
-     *
-     * @param pos
-     *            node pos
-     * @return parent pos
-     */
-    private int getParentPos(int pos) {
-        return pos / 2;
-    }
-
-
-    /**
-     * Get left child pos
-     *
-     * @param pos
-     *            curr pos
-     * @return left child pos
-     */
-    private int getLeftChildPos(int pos) {
-        return pos * 2;
-    }
-
-
-    /**
-     * Get right child pos
-     *
-     * @param pos
-     *            curr node
-     * @return right child pos
-     */
-    private int getRightChildPos(int pos) {
-        return (pos * 2) + 1;
     }
 
 }
