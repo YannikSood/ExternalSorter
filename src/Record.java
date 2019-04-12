@@ -34,18 +34,24 @@ public class Record {
     }
 
     /**
+     * Compares two records' key values for sorting.
      * 
-     * 
-     * @param record
-     * @return
+     * @param record    Record to be compared to
+     * @return          If this record > rec then positive value
+     *                  If this record < rec then negative value
+     *                  If equal, then 0
      */
-    public int compareTo(Record record) {
+    public int compareTo(Record rec) {
         // conversions
         char[] temp = Hex.encodeHex(this.key);
-        String thisKey = temp.toString();
+        //System.out.print("Key: ");
+        String thisKey = String.valueOf(temp);
+        //System.out.println(thisKey);
         
-        temp = Hex.encodeHex(record.getKey());
-        String recordKey = temp.toString();
+        temp = Hex.encodeHex(rec.getKey());
+        //System.out.print("Value: ");
+        String recordKey = String.valueOf(temp);
+        //System.out.println(recordKey);
         
         // comparison
         return thisKey.compareTo(recordKey);
