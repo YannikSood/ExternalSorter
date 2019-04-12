@@ -1,3 +1,4 @@
+import org.apache.commons.codec.binary.Hex;
 
 public class Record {
     private byte[] key;
@@ -39,10 +40,8 @@ public class Record {
      * @return
      */
     public int compareTo(Record record) {
-        // TODO Auto-generated method stub
-        return 0;
         // conversions
-        char[] temp = Hex.encodeHex(this.value);
+        char[] temp = Hex.encodeHex(this.key);
         String thisKey = temp.toString();
         
         temp = Hex.encodeHex(record.getKey());

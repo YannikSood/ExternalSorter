@@ -1,3 +1,4 @@
+import java.io.IOException;
 
 /**
  * The Replacement Selection Sort Method
@@ -24,13 +25,15 @@ public class ExternalSorter {
     private Buffer inputBuffer;
     private Buffer outputBuffer;
     private Heap minHeap;
-    private BinaryParser_BytesVersion parser;
+    private BinaryParser parser;
     
     /**
      * Constructor
+     * 
      * @param filename
+     * @throws IOException 
      */
-    public ExternalSorter(String filename) {
-        
+    public ExternalSorter(String filename) throws IOException {
+        parser = new BinaryParser(filename);
     }
 }

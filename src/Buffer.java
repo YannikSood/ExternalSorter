@@ -21,7 +21,7 @@
  * @version 04.10.19
  *
  */
-public class Buffer implements BufferADT {
+public class Buffer {
     private byte[] bufferArray;
     private static final int BUFFER_LENGTH = 8192;
     private int size;

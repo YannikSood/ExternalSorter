@@ -1,5 +1,5 @@
 /**
- *
+ * Heap class as implemented on Canvas, adjusted for minHeap.
  *
  * @author <Yannik Sood> <yannik24>
  * @version 04.10.19
@@ -11,11 +11,6 @@ public class Heap {
     private int maxSize; // max size of heap
     private int nHeap; // no. elements in heap
 
-    private BinaryParser parser; // grabbing data for buffer
-    // private Buffer inputBuffer = new Buffer();
-    // private Buffer outputBuffer = new Buffer();
-
-
     /**
      *
      *
@@ -24,10 +19,10 @@ public class Heap {
      */
     public Heap(Byte[] byteArray, int n) {
         this.maxSize = 512 * 8;
-        this.nHeap = 0;
-
         this.minHeap = new Record[maxSize];
-        this.currBlock = byteArray;
+        this.nHeap = 0;
+        
+        this.currBlock = byteArray; // currBlock points to byteArray passed in
 
         // populate the heap with records
 
@@ -39,7 +34,7 @@ public class Heap {
     /**
      * Return heap size.
      *
-     * @return size
+     * @return heap size
      */
     public int getSize() {
         return this.nHeap;
@@ -52,7 +47,7 @@ public class Heap {
      * @return
      */
     boolean isLeaf(int pos) {
-        return (pos >= nHeap/2) && (pos < nHeap);
+        return (pos >= nHeap / 2) && (pos < nHeap);
     }
 
     /**
@@ -62,21 +57,25 @@ public class Heap {
      * @return
      */
     int leftChild(int pos) {
-        if (pos >= nHeap/2) {
+        if (pos >= nHeap / 2) {
             return -1;
         }
 
       return 2*pos + 1;
     }
-
+    
     /**
      * Return position for right child of pos
-     *
+     * 
      * @param pos
      * @return
      */
-    public int getSize() {
-        return nHeap;
+    int rightChild(int pos) {
+        if (pos >= (nHeap - 1) / 2) {
+            return -1;
+        }
+
+        return 2*pos + 2;
     }
 
     /**
@@ -90,6 +89,8 @@ public class Heap {
             return -1;
         }
 
+        return (pos - 1) / 2;
+    }
 
     /**
      * Insert element in heap
@@ -106,112 +107,133 @@ public class Heap {
         int curr = nHeap++; // this assigns current nHeap then increments
         minHeap[curr] = record; // start at end of heap
 
-        // sifting down
+        // sifting until curr's parent's key < curr's key
         while ((curr != 0) && minHeap[curr].compareTo(minHeap[parent(curr)]) < 0) {
             swapNodes(curr, parent(curr));
             curr = parent(curr);
         }
     }
-
-
+    
     /**
-     * Remove min value
+     * Remove and return record at pos.
+     * 
+     * @param pos
+     * @return
+     */
+    public Record remove(int pos) {
+        if ((pos < 0) || (pos >= nHeap)) {
+            return null;
+        }
+        
+        if (pos == (nHeap - 1)) {
+            nHeap--; // just decrease the size
+            return minHeap[nHeap]; // return removed element
+        }
+        else {
+            swapNodes(pos, --nHeap); // swap with last record
+            update(pos);
+            return minHeap[nHeap]; // return removed element
+        }
+    }
+    
+    /**
+     * Value of pos has been changed, restore heap property.
+     */
+    void update(int pos) {
+        // if it's smaller than parent, push up
+        while ((pos > 0) && minHeap[pos].compareTo(minHeap[parent(pos)]) < 0) {
+            swapNodes(pos, parent(pos));
+            pos = parent(pos);
+        }
+        
+        // if it's larger then sift down if needed
+        if (nHeap != 0) {
+            siftDown(pos);
+        }
+    }
+    
+    /**
+     * Modify value at given position.
+     * 
+     * @param pos
+     * @param newVale
+     */
+    public void modift(int pos, Record newVale) {
+        if ((pos < 0) || (pos >= nHeap)) {
+            return;
+        }
+        
+        minHeap[pos] = newVale;
+        update(pos);
+    }
+    
+    /**
+     * Remove min value from heap.
      *
-     * @return minimum value
+     * @return      minimum Record
      */
     public Record removeMin() {
-        Record popped = minHeap[1];
-        minHeap[1] = minHeap[size--];
-        minHeapHelper(1);
-        return popped;
+        if (nHeap == 0) {
+            return null;
+        }
+        
+        swapNodes(0, --nHeap); // also decrements heap size
+        
+        if (nHeap != 0) { // not last element
+            siftDown(0);
+        }
+        
+        return minHeap[nHeap];
     }
-
 
     /**
      * Make the heap a min heap
      */
     public void makeMinHeap() {
-        for (int i = (size / 2); i >= 1; i--) {
-            minHeapHelper(i);
+        for (int i = (nHeap / 2) - 1; i >= 0; i--) {
+            siftDown(i);
         }
     }
-
 
     /**
-     * Helper to make the min heap
+     * Put element in its correct place (heapify). Equal value goes left.
      *
-     * @param pos
-     *            node to heapify
+     * @param pos   node to be positioned
      */
-    private void minHeapHelper(int pos) {
-
-        if (!(pos >= (size / 2) && pos <= size)) {
-            if (minHeap[pos].getValue() > minHeap[getLeftChildPos(pos)]
-                .getValue() || minHeap[pos]
-                    .getValue() > minHeap[getRightChildPos(pos)].getValue()) {
-                if (minHeap[getLeftChildPos(pos)]
-                    .getValue() < minHeap[getRightChildPos(pos)].getValue()) {
-                    swapNodes(pos, getLeftChildPos(pos));
-                    minHeapHelper(getLeftChildPos(pos));
-                }
-
-                else {
-                    swapNodes(pos, getRightChildPos(pos));
-                    minHeapHelper(getRightChildPos(pos));
-                }
+    private void siftDown(int pos) {
+        if ((pos < 0) || (pos >= nHeap)) {
+            return;
+        }
+        
+        while (!isLeaf(pos)) {
+            int j = leftChild(pos);
+            
+            // checking which node to pick
+            if ((j < (nHeap-1)) && (minHeap[j].compareTo(minHeap[j+1]) > 0)) {
+                j++; // index of child with lower value
             }
+            
+            // does this if second child does not exist or is smaller/equal
+            if (minHeap[j].compareTo(minHeap[pos]) >= 0) {
+                return; // the child j is greater than or equal to pos
+            }
+            
+            // swap depending on above outcomes
+            swapNodes(pos, j);
+            pos = j;
         }
     }
-
 
     /**
      * Swap two nodes
-     *
-     * @param first
-     *            node
-     * @param second
-     *            node
+     * 
+     * @param first     first node
+     * @param second    second node
      */
     private void swapNodes(int first, int second) {
         Record temp = minHeap[first];
         minHeap[first] = minHeap[second];
         minHeap[second] = temp;
-    }
-
-
-    /**
-     * Get the parent pos
-     *
-     * @param pos
-     *            node pos
-     * @return parent pos
-     */
-    private int getParentPos(int pos) {
-        return pos / 2;
-    }
-
-
-    /**
-     * Get left child pos
-     *
-     * @param pos
-     *            curr pos
-     * @return left child pos
-     */
-    private int getLeftChildPos(int pos) {
-        return pos * 2;
-    }
-
-
-    /**
-     * Get right child pos
-     *
-     * @param pos
-     *            curr node
-     * @return right child pos
-     */
-    private int getRightChildPos(int pos) {
-        return (pos * 2) + 1;
     }
 
 }

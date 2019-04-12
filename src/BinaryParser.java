@@ -58,9 +58,28 @@ public class BinaryParser {
             endFile = true;
             raf.close();
             
+            // this will run if not a full block
             byte[] barr = bb.array();
             System.out.println(Arrays.toString(barr));
             return barr;
         }
+    }
+    
+    /**
+     * Return current byte position of parser.
+     * 
+     * @return
+     */
+    public int getParserPos() {
+        return this.currByte;
+    }
+    
+    /**
+     * Return whether we have reached end of file or not.
+     * 
+     * @return
+     */
+    public boolean getFileStatus() {
+        return this.endFile;
     }
 }

@@ -5,15 +5,8 @@ import student.TestCase;
  *
  */
 public class BufferTest extends TestCase {
-
     private Buffer buffer;
     private byte[] bytes;
-    /**
-     * Unused Constructor
-     */
-    public BufferTest() {
-        //Unused Constructor
-    }
     
     public void setUp() {
 
@@ -88,11 +81,5 @@ public class BufferTest extends TestCase {
         assertEquals(buffer.getVal()[6], 15);
         assertEquals(buffer.getVal()[7], 16);
     }
-    
-    
-    
-    
-    
-    
 }
 
