@@ -40,7 +40,7 @@ public class Externalsort {
      * @throws IOException  exception check
      */
     public static void main(String[] args) throws IOException {
-        new ExternalSorter(args[0]);
+        new BinaryParser(args[0]);
     }
 
 }

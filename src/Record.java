@@ -1,4 +1,3 @@
-import org.apache.commons.codec.binary.Hex;
 
 public class Record {
     private byte[] key;
@@ -21,7 +20,7 @@ public class Record {
      * @return key
      */
     public byte[] getKey() {
-        return this.key;
+        return key;
     }
     
     /**
@@ -30,27 +29,17 @@ public class Record {
      * @return value
      */
     public byte[] getValue() {
-        return this.value;
+        return value;
     }
 
     /**
-     * Compares two records' keys for sorting.
-     * If this > record, positive number.
-     * If this < record, negative number.
-     * If equal, 0.
+     * 
      * 
      * @param record
      * @return
      */
     public int compareTo(Record record) {
-        // conversions
-        char[] temp = Hex.encodeHex(this.key);
-        String thisKey = temp.toString();
-        
-        temp = Hex.encodeHex(record.getKey());
-        String recordKey = temp.toString();
-        
-        // comparison
-        return thisKey.compareTo(recordKey);
+        // TODO Auto-generated method stub
+        return 0;
     }
 }

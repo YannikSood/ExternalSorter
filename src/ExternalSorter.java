@@ -1,4 +1,3 @@
-import java.io.IOException;
 
 /**
  * The Replacement Selection Sort Method
@@ -29,11 +28,9 @@ public class ExternalSorter {
     
     /**
      * Constructor
-     * 
      * @param filename
-     * @throws IOException 
      */
-    public ExternalSorter(String filename) throws IOException {
-        this.parser = new BinaryParser(filename); // throw handled in BP alrdy?
+    public ExternalSorter(String filename) {
+        
     }
 }
