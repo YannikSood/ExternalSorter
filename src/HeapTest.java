@@ -327,6 +327,7 @@ public class HeapTest extends TestCase {
         
         // remove pos 1 will cause 74 to have to switch with 58
         // should be the first 58 added with ID v1
+        // covers the siftDown case for update
         assertEquals(value1, heap.remove(1).getValue());
         
         // add another 16 and 12 (turned out to not be needed tho)
@@ -388,19 +389,40 @@ public class HeapTest extends TestCase {
     }
 
     /**
-     * Modify the value of a node, probably also not needed.
+     * Modify the value of a node and update, probably also not needed.
      * Note: Requires update to be working.
      */
     public void testModify() {
-        fail("Not yet implemented");
-    }
-
-    /**
-     * Restore Heap property test, requires swapNodes and siftDown
-     * to be working.
-     */
-    public void testUpdate() {
-        fail("Not yet implemented");
+     // 10 records loaded to heap
+        Heap tempHeap = new Heap(new byte[] {77, 0, 0, 0, 0, 0, 0, 0, 
+                                             1, 1, 1, 1, 1, 1, 1, 1,
+                                             68, 0, 0, 0, 0, 0, 0, 0,
+                                             2, 2, 2, 2, 2, 2, 2, 2,
+                                             96, 0, 0, 0, 0, 0, 0, 0,
+                                             3, 3, 3, 3, 3, 3, 3, 3,
+                                             78, 0, 0, 0, 0, 0, 0, 0,
+                                             4, 4, 4, 4, 4, 4, 4, 4,
+                                             22, 0, 0, 0, 0, 0, 0, 0,
+                                             5, 5, 5, 5, 5, 5, 5, 5,
+                                             23, 0, 0, 0, 0, 0, 0, 0,
+                                             6, 6, 6, 6, 6, 6, 6, 6,
+                                             28, 0, 0, 0, 0, 0, 0, 0,
+                                             7, 7, 7, 7, 7, 7, 7, 7,
+                                             35, 0, 0, 0, 0, 0, 0, 0,
+                                             8, 8, 8, 8, 8, 8, 8, 8,
+                                             20, 0, 0, 0, 0, 0, 0, 0,
+                                             9, 9, 9, 9, 9, 9, 9, 9,
+                                             79, 0, 0, 0, 0, 0, 0, 0,
+                                             10, 10, 10, 10, 10, 10, 10, 10,},
+                                                                        160);
+        
+        // tests
+        // this will actually cover the siftUp case in update as well!
+        byte[] temp = new byte[] {5, 0, 0, 0, 0, 0, 0, 0};
+        tempHeap.modify(1, new Record(temp, value1));
+        
+        // root should be 5 now
+        assertEquals(temp, tempHeap.removeMin().getKey());
     }
 
 }

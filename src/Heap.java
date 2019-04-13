@@ -77,7 +77,7 @@ public class Heap {
      * @param pos
      * @return
      */
-    boolean isLeaf(int pos) {
+    public boolean isLeaf(int pos) {
         return (pos >= nHeap / 2) && (pos < nHeap);
     }
 
@@ -87,7 +87,7 @@ public class Heap {
      * @param pos
      * @return
      */
-    int leftChild(int pos) {
+    public int leftChild(int pos) {
         if (pos < 0) {
             return -2;
         }
@@ -104,7 +104,7 @@ public class Heap {
      * @param pos
      * @return
      */
-    int rightChild(int pos) {
+    public int rightChild(int pos) {
         if (pos < 0) {
             return -2;
         }
@@ -121,7 +121,7 @@ public class Heap {
      * @param pos
      * @return
      */
-    int parent(int pos) {
+    public int parent(int pos) {
         if (pos <= 0) {
             return -1;
         }
@@ -176,7 +176,7 @@ public class Heap {
     /**
      * Value of pos has been changed, restore heap property.
      */
-    void update(int pos) {
+    private void update(int pos) {
         // if it's smaller than parent, push up
         while ((pos > 0) && minHeap[pos].compareTo(minHeap[parent(pos)]) < 0) {
             swapNodes(pos, parent(pos));
