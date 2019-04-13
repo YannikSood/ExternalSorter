@@ -30,8 +30,13 @@ public class BinaryParserTest extends TestCase {
         // constructor test
         assertFalse(par.getEOF());
         assertEquals(0, par.getTotalBytes());
-
-        // test wrong file name
+    }
+    
+    /**
+     * Test wrong file name
+     */
+    public void testWrongFilenName() {
+     // test wrong file name
         Exception exception = null;
         BinaryParser temp = null;
         

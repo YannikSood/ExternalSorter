@@ -94,7 +94,16 @@ public class ExternalSorter {
      * output buffer and an 8 block heap.
      */
     public void rSort() {
+        System.out.println("---------sorting------");
+        System.out.println("-----------------------");
         
+        System.out.println(par.getEOF());
+        System.out.println(minHeap.getSize());
+        
+        // while heap is not empty, keep sorting
+        while (minHeap.getSize() > 0) {
+            
+        }
     }
 
 }
