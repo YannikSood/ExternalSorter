@@ -46,6 +46,15 @@ public class HeapTest extends TestCase {
         heap.insert(rec2);
         assertEquals(2, heap.getSize());
     }
+    
+    /**
+     * Trivial test for get root.
+     */
+    public void testGetRoot() {
+        heap.insert(rec1);
+        heap.insert(rec2);
+        assertEquals(rec2, heap.getRoot());
+    }
 
     /**
      * Test is a record is in a leaf position.

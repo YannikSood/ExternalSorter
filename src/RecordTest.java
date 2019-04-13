@@ -36,6 +36,15 @@ public class RecordTest extends TestCase {
     }
     
     /**
+     * Test get record function for records.
+     */
+    public void testGetRecord() {
+        assertEquals("[113, -49, 34, -48, 2, -20, 59, -64, 74,"
+            + " -1, 102, -38, 10, 58, 66, -3]",
+                Arrays.toString(rec1.getRecord()));
+    }
+    
+    /**
      * Test the get value function for records.
      */
     public void testGetValue() {

@@ -25,12 +25,26 @@ public class Record {
     }
     
     /**
-     * get the value
+     * Get the value
      * 
      * @return value
      */
     public byte[] getValue() {
         return value;
+    }
+    
+    /**
+     * Get the complete Record in byte array.
+     */
+    public byte[] getRecord() {
+        byte[] temp = new byte[16];
+        
+        for (int i = 0; i < 8; i++) {
+            temp[i] = key[i];
+            temp[i+8] = value[i];
+        }
+        
+        return temp;
     }
 
     /**
