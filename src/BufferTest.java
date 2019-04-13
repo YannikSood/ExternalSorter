@@ -160,7 +160,9 @@ public class BufferTest extends TestCase {
     public void testInsert() {
         bytes = new byte[8192];
         byte[] temp = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
-            14, 15, 16 };
+            14, 15, 16};
+        byte[] temp2 = new byte[] {17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+            32 };
         for (int i = 0; i < 8192; i++) {
             bytes[i] = (byte)i;
         }
@@ -173,9 +175,17 @@ public class BufferTest extends TestCase {
         }
         assertEquals(buffer.getSize(), 0);
         assertEquals(16, buffer.insert(temp));
-        assertEquals(32, buffer.insert(temp));
+        assertEquals(32, buffer.insert(temp2));
         assertEquals(-1, buffer.insert(bytes));
         assertEquals(32, buffer.getSize());
+        
+        for (int j = 0; j < 16; j++) {
+            assertEquals(buffer.getArray()[j], temp[j]);
+        }
+        
+        for (int k = 16; k < 32; k++) {
+            assertEquals(buffer.getArray()[k], temp2[k - 16]);
+        }
     }
 
 }
