@@ -54,8 +54,7 @@ public class Heap {
             }
             
             // assign record
-            minHeap[nHeap] = new Record(key, value);
-            nHeap++;
+            minHeap[nHeap++] = new Record(key, value);
         }
         
         // heapify

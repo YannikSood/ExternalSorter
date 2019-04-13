@@ -418,6 +418,7 @@ public class HeapTest extends TestCase {
         
         // tests
         // this will actually cover the siftUp case in update as well!
+        assertEquals(10, tempHeap.getSize());
         byte[] temp = new byte[] {5, 0, 0, 0, 0, 0, 0, 0};
         tempHeap.modify(1, new Record(temp, value1));
         
