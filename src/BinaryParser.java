@@ -52,22 +52,29 @@ public class BinaryParser {
             byte[] barr = bb.array();
 
             // return a reference to this array
-            // System.out.println(Arrays.toString(barr));
+            System.out.println(Arrays.toString(barr));
             return barr;
 
         }
-        catch (EOFException e) { // end of file
+        catch (EOFException e) {
+            // this will run if EOF or not a full block
             endFile = true;
             raf.close();
             
-            // this will run if not a full block
             byte[] barr = bb.array();
             
             // we can use currByte to grab up to where data ends
             // instead of the full 8192 array if required
             
-            // System.out.println("not complete block or empty");
-            // System.out.println(Arrays.toString(barr));
+            // this is O(currBytes), I think a better soln. is to pass
+            // currBytes to buffer so that it knows how far to read
+            byte[] temp = new byte[this.currByte]; // still good even for 0
+            for (int i = 0; i < this.currByte; i++) {
+                temp[i] = barr[i];
+            }
+            
+            System.out.println("not complete block or empty");
+            System.out.println(Arrays.toString(barr));
             return barr;
         }
     }

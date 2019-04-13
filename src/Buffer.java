@@ -29,25 +29,29 @@ public class Buffer {
 
 
     // -------------------------------------------------------------------------
+
+    
     /**
-     * constructor for Buffer class
      * 
-     * @param b
-     *            the byte array that this buffer holds
+     * 
+     * @param buff
      */
     public Buffer(byte[] buff) {
-        size = 0;
+        this.size = 0;
+        
         if (buff != null && buff.length <= BUFFER_LENGTH) {
             bufferArray = new byte[BUFFER_LENGTH];
             setArray(buff);
-            removeIndex = 0;
+            
+            this.removeIndex = 0;
         }
     }
 
 
     /**
-     * @param a
-     *            the array to set
+     * 
+     * 
+     * @param buff
      */
     public void setArray(byte[] buff) {
         if (buff.length <= BUFFER_LENGTH) {
@@ -56,23 +60,22 @@ public class Buffer {
             }
         }
         size = buff.length;
-
     }
 
 
     /**
-     * @return the array
+     * @return reference to the buffer the array
      */
     public byte[] getArray() {
-        return bufferArray;
+        return this.bufferArray;
     }
 
 
     /**
-     * @return the current size of the array
+     * @return the current number of elements in buffer
      */
     public int getSize() {
-        return size;
+        return this.size;
     }
 
 
@@ -110,20 +113,23 @@ public class Buffer {
      * Remove 16 bytes from the front
      * of the buffer
      * 
-     * @return true if removed
+     * @return bytes removed
      */
     public byte[] remove() {
         if (size == 0) {
             return null;
         }
+        
         byte[] temp = new byte[16];
         int j = 0;
+        
         for (int i = removeIndex; i < removeIndex + 16; i++) {
             temp[j] = bufferArray[i];
             bufferArray[i] = 0;
             j++;
 
         }
+        
         removeIndex = removeIndex + 16;
         size = size - 16;
         return temp;

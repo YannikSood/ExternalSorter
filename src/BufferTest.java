@@ -30,6 +30,8 @@ public class BufferTest extends TestCase {
         assertEquals(buffer.getArray()[7], 8);
         assertEquals(buffer.getArray()[8], 9);
         assertEquals(buffer.getArray()[9], 10);
+        
+        assertEquals(8192, buffer.getArray().length);
     }
 
 
@@ -52,6 +54,7 @@ public class BufferTest extends TestCase {
         bytes = new byte[] { 4, 3, 2 };
         buffer.setArray(bytes);
         assertEquals(buffer.getSize(), 3);
+        assertEquals(8192, buffer.getArray().length);
     }
 
 
