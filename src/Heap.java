@@ -83,7 +83,10 @@ public class Heap {
      * @return
      */
     int leftChild(int pos) {
-        if (pos >= nHeap / 2) {
+        if (pos < 0) {
+            return -2;
+        }
+        else if (pos >= nHeap / 2) {
             return -1;
         }
 
@@ -97,7 +100,10 @@ public class Heap {
      * @return
      */
     int rightChild(int pos) {
-        if (pos >= (nHeap - 1) / 2) {
+        if (pos < 0) {
+            return -2;
+        }
+        else if (pos >= (nHeap - 1) / 2) {
             return -1;
         }
 

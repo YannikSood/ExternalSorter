@@ -50,6 +50,9 @@ public class HeapTest extends TestCase {
      * Test is a record is in a leaf position.
      */
     public void testIsLeaf() {
+        // invalid tests
+        assertFalse(heap.isLeaf(-1));
+        
         // empty tests
         assertFalse(heap.isLeaf(0));
         assertFalse(heap.isLeaf(1));
@@ -71,6 +74,9 @@ public class HeapTest extends TestCase {
         // to test if right child is now a leaf
         heap.insert(rec1);
         assertEquals(3, heap.getSize());
+        
+        assertFalse(heap.isLeaf(-1)); // invalid check again
+        
         assertFalse(heap.isLeaf(0));
         assertTrue(heap.isLeaf(1));
         assertTrue(heap.isLeaf(2));
@@ -84,6 +90,9 @@ public class HeapTest extends TestCase {
      * Test return position of the left child of pos
      */
     public void testLeftchild() {
+        // invalid tests
+        assertEquals(-2, heap.leftChild(-3)); // i decided to return -2
+        
         // empty tests
         assertEquals(-1, heap.leftChild(0));
         assertEquals(-1, heap.leftChild(1));
@@ -100,9 +109,12 @@ public class HeapTest extends TestCase {
     }
 
     /**
-     * 
+     * Test return position of the right child of pos
      */
     public void testRightchild() {
+        // invalid tests
+        assertEquals(-2, heap.rightChild(-2)); // i decided to return -2
+        
         // empty tests
         assertEquals(-1, heap.rightChild(0));
         assertEquals(-1, heap.rightChild(1));
@@ -119,9 +131,26 @@ public class HeapTest extends TestCase {
         assertEquals(-1, heap.rightChild(2)); // right of root's right child
     }
 
-
+    /**
+     * Test return of position of parent.
+     * 
+     * Note: this returns a value even if parent does not
+     *       exist per the canvas implementation.
+     */
     public void testParent() {
-        fail("Not yet implemented");
+        // invalid test
+        assertEquals(-1, heap.parent(-1));
+        
+        // testing parent positions
+        assertEquals(-1, heap.parent(0));
+        assertEquals(0, heap.parent(1));
+        assertEquals(0, heap.parent(2));
+        
+        // more positions until satisfied
+        assertEquals(1, heap.parent(3));
+        assertEquals(1, heap.parent(4));
+        assertEquals(2, heap.parent(5));
+        assertEquals(2, heap.parent(6));
     }
 
 
