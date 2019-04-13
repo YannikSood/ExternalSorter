@@ -75,7 +75,7 @@ public class BinaryParser {
             
             System.out.println("not complete block or empty");
             System.out.println(Arrays.toString(barr));
-            return barr;
+            return temp;
         }
     }
     
