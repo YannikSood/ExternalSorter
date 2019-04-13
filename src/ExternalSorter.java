@@ -32,14 +32,14 @@ public class ExternalSorter {
      * Constructor
      * 
      * @param filename
-     * @throws IOException 
+     * @throws IOException
      */
     public ExternalSorter(String filename) throws IOException {
         // initialize parser, Heap and lastInsert
         this.lastRemoved = null;
         par = new BinaryParser(filename);
         minHeap = new Heap(); // empty 8 block Heap
-
+        
         // pre-load heap with 8 blocks (if possible)
         while ((minHeap.getSize() < 512 * 8) && !par.getEOF()) {
             byte[] byteArray = par.getBlock(); // grab a block
@@ -74,11 +74,14 @@ public class ExternalSorter {
                     minHeap.insert(new Record(key, value));
                 }
             }
+
         }
 
         // if more to load, pre-load the buffer with up to 1 block (if possible)
         if (!par.getEOF()) {
-            inBuffer = new Buffer(par.getBlock(), 8192);
+            byte[] temp = par.getBlock(); // grab up to 1 block
+            inBuffer = new Buffer(temp, par.getCurrBytes());
+
             System.out.println("buffer pre-loaded as well");
         }
 
@@ -86,7 +89,7 @@ public class ExternalSorter {
         this.rSort();
 
         // merge sort run file
-        
+
     }
 
     /**
@@ -96,14 +99,21 @@ public class ExternalSorter {
     public void rSort() {
         System.out.println("---------sorting------");
         System.out.println("-----------------------");
-        
+
         System.out.println(par.getEOF());
         System.out.println(minHeap.getSize());
-        
+
         // while heap is not empty, keep sorting
         while (minHeap.getSize() > 0) {
-            
+            // just remove on first call
+            if (this.lastRemoved == null) {
+                this.lastRemoved = minHeap.removeMin();
+            }
+            else { // not the first removal
+
+            }
         }
+
     }
 
 }

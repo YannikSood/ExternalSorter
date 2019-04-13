@@ -2,7 +2,6 @@ import java.io.EOFException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import student.TestCase;
-
 /**
  * Test class for the file parser.
  * 
@@ -18,7 +17,7 @@ public class BinaryParserTest extends TestCase {
      * @throws IOException 
      */
     public void setUp() throws IOException {
-        this.par = new BinaryParser("sampleInput16.bin");
+        this.par = new BinaryParser("incompleteBlock.bin");
     }
     
     // Note: These tests will also test the trivial getter methods.
@@ -36,7 +35,7 @@ public class BinaryParserTest extends TestCase {
      * Test wrong file name
      */
     public void testWrongFilenName() {
-     // test wrong file name
+        // test wrong file name
         Exception exception = null;
         BinaryParser temp = null;
         
@@ -100,6 +99,10 @@ public class BinaryParserTest extends TestCase {
             byte[] result = new byte[] {113, -80};
             assertEquals(result[0], b[0]);
             assertEquals(result[1], b[87]);
+            
+            // counter checks
+            assertEquals(88, par.getCurrBytes());
+            assertEquals(88, par.getTotalBytes());
         }
         
         assertNotNull(exception);
@@ -128,10 +131,15 @@ public class BinaryParserTest extends TestCase {
             byte[] result = new byte[] {0, 98};
             assertEquals(result[0], b[0]);
             assertEquals(result[1], b[b.length - 1]);
+           
+            // counter checks
+            assertEquals(8192, par.getCurrBytes());
+            assertEquals(8192, par.getTotalBytes());
         }
         
         assertNotNull(exception);
     }
+    
     /**
      * Test getblock() function on two complete blocks.
      */
@@ -151,11 +159,14 @@ public class BinaryParserTest extends TestCase {
             assertTrue(r instanceof EOFException);
             assertNotNull(b);
             
-            // we grabbed first block out of 2
-            assertEquals(8192 * 2, temp.getTotalBytes());
+            // we grabbed second block out of 2
             byte[] result = new byte[] {-91, -118};
             assertEquals(result[0], b[0]);
             assertEquals(result[1], b[b.length - 1]);
+            
+            // counter checks
+            assertEquals(8192, par.getCurrBytes());
+            assertEquals(8192 * 2, par.getTotalBytes());
         }
         
         assertNotNull(exception);
