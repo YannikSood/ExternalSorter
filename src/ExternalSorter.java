@@ -22,10 +22,10 @@ import java.io.IOException;
  *
  */
 public class ExternalSorter {
-    private Buffer inputBuffer;
-    private Buffer outputBuffer;
+    private Buffer inBuffer;
+    private Buffer outBuffer;
     private Heap minHeap;
-    private BinaryParser parser;
+    private BinaryParser par;
     
     /**
      * Constructor
@@ -34,6 +34,6 @@ public class ExternalSorter {
      * @throws IOException 
      */
     public ExternalSorter(String filename) throws IOException {
-        parser = new BinaryParser(filename);
+        par = new BinaryParser(filename);
     }
 }
