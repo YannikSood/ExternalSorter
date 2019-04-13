@@ -52,7 +52,7 @@ public class BinaryParser {
             byte[] barr = bb.array();
 
             // return a reference to this array
-            System.out.println(Arrays.toString(barr));
+            // System.out.println(Arrays.toString(barr));
             return barr;
 
         }
@@ -64,9 +64,10 @@ public class BinaryParser {
             byte[] barr = bb.array();
             
             // we can use currByte to grab up to where data ends
-            // if we need to
-            System.out.println("not complete block or empty");
-            System.out.println(Arrays.toString(barr));
+            // instead of the full 8192 array if required
+            
+            // System.out.println("not complete block or empty");
+            // System.out.println(Arrays.toString(barr));
             return barr;
         }
     }
@@ -85,7 +86,7 @@ public class BinaryParser {
      * 
      * @return
      */
-    public boolean getFileStatus() {
+    public boolean getEOF() {
         return this.endFile;
     }
 }
