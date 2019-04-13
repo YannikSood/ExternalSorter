@@ -173,6 +173,16 @@ public class Heap {
     }
     
     /**
+     * Return the root value of the heap.
+     * 
+     * @param pos
+     * @return
+     */
+    public Record getRoot() {
+            return minHeap[0]; // return root element
+    }
+    
+    /**
      * Value of pos has been changed, restore heap property.
      */
     private void update(int pos) {

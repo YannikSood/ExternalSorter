@@ -107,10 +107,16 @@ public class ExternalSorter {
         while (minHeap.getSize() > 0) {
             // just remove on first call
             if (this.lastRemoved == null) {
-                this.lastRemoved = minHeap.removeMin();
+                // "remove" except it's still in the array
+                Record temp = minHeap.getRoot();
+                this.lastRemoved = temp;
+                
+                // send the bytes to outBuffer
+                
+                
             }
             else { // not the first removal
-
+                
             }
         }
 
