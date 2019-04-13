@@ -153,9 +153,70 @@ public class HeapTest extends TestCase {
         assertEquals(2, heap.parent(6));
     }
 
-
-    public void testInsert() {
-        fail("Not yet implemented");
+    /**
+     * Test insertion to the end of heap.
+     * Insertion also handles sifting upwards.
+     * Should not sift if value is equal (requires remove(pos) to be functional
+     * for testing.)
+     */
+    public void testInsertDuplicate() {
+        // test duplicate key scenario
+        heap.insert(rec1);
+        heap.insert(new Record(new byte[] {113, -49, 34, -48, 2, -20, 59, -64},
+            value2));
+        assertEquals(rec1, heap.remove(0)); // this should remove rec1
+    }
+    
+    /**
+     * Test insertion to the end of heap.
+     * Insertion also handles sifting upwards.
+     */
+    public void testInsertSiftLeftOnce() {
+        heap.insert(rec1);
+        heap.insert(rec2);
+        assertEquals(rec2, heap.remove(0)); // this should remove rec2
+    }
+    
+    /**
+     * Test insertion to the end of heap.
+     * Insertion also handles sifting upwards.
+     */
+    public void testInsertSiftRightOnce() {
+        heap.insert(rec1);
+        heap.insert(rec1);
+        byte[] temp = new byte[] {1, 2, 3, 4, 5, 6, 7, 8};
+        heap.insert(new Record(temp, value2));
+        assertEquals(temp, heap.remove(0).getKey());
+    }
+    
+    /**
+     * Test insertion to the end of heap.
+     * Insertion also handles sifting upwards.
+     */
+    public void testInsertSiftLeftMult() {
+        // build condition
+        for (int i = 0; i < 7; i++) {
+            heap.insert(rec1);
+        }
+        
+        // insert
+        heap.insert(rec2); // this should sift to root
+        assertEquals(rec2, heap.remove(0));
+    }
+    
+    /**
+     * Test insertion to the end of heap.
+     * Insertion also handles sifting upwards.
+     */
+    public void testInsertSiftRightMult() {
+        // build condition
+        for (int i = 0; i < 14; i++) {
+            heap.insert(rec1);
+        }
+        
+        // insert
+        heap.insert(rec2); // this should sift to root
+        assertEquals(rec2, heap.remove(0));
     }
 
 
