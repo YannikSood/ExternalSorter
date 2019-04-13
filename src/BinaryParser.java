@@ -74,9 +74,6 @@ public class BinaryParser {
                 return null;
             }
             else { // partial block read
-                // use guaranteed open spot to store number of bytes read
-                barr[8191] = (byte)this.currBytes;
-                
                 // return a reference to this array
                 System.out.println("not a complete block");
                 System.out.println(Arrays.toString(barr));
@@ -90,7 +87,7 @@ public class BinaryParser {
      * 
      * @return
      */
-    public int getTotalByte() {
+    public int getTotalBytes() {
         return this.totalBytes;
     }
     
@@ -101,6 +98,14 @@ public class BinaryParser {
      */
     public boolean getEOF() {
         return this.endFile;
+    }
+    
+    /**
+     * Return the number of bytes read for a single block grab.
+     * Note: This resets to 0 every time getBlock() is called.
+     */
+    public int getCurrBytes() {
+        return this.currBytes;
     }
     
 }

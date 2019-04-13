@@ -26,7 +26,8 @@ public class ExternalSorter {
     private Buffer outBuffer;
     private Heap minHeap;
     private BinaryParser par;
-    
+    private Record lastRemoved;
+
     /**
      * Constructor
      * 
@@ -34,34 +35,66 @@ public class ExternalSorter {
      * @throws IOException 
      */
     public ExternalSorter(String filename) throws IOException {
-        // initialize parser and Heap
+        // initialize parser, Heap and lastInsert
+        this.lastRemoved = null;
         par = new BinaryParser(filename);
         minHeap = new Heap(); // empty 8 block Heap
-        
+
         // pre-load heap with 8 blocks (if possible)
         while ((minHeap.getSize() < 512 * 8) && !par.getEOF()) {
-            byte[] temp = par.getBlock(); // grab a block
-            
-            
+            byte[] byteArray = par.getBlock(); // grab a block
+            System.out.println(par.getCurrBytes());
+            System.out.println(par.getTotalBytes());
+
+            // create records
+            if (byteArray != null) {
+                byte[] key;
+                byte[] value;
+                int byteCount = 0;
+
+                while (byteCount < par.getCurrBytes()) {
+                    // if you don't do this, it will reference to the same array
+                    // in each record
+                    key = new byte[8];
+                    value = new byte[8];
+
+                    // grab key
+                    for (int i = 0; i < 8; i++) {
+                        key[i] = byteArray[byteCount];
+                        byteCount++;
+                    }
+
+                    // grab value
+                    for (int i = 0; i < 8; i++) {
+                        value[i] = byteArray[byteCount];
+                        byteCount++;
+                    }
+
+                    // assign record
+                    minHeap.insert(new Record(key, value));
+                }
+            }
         }
-        
-        // if more to load, pre-load the buffer with 1 block (f possible)
+
+        // if more to load, pre-load the buffer with up to 1 block (if possible)
         if (!par.getEOF()) {
             inBuffer = new Buffer(par.getBlock());
+            System.out.println("buffer pre-loaded as well");
         }
-        
+
         // replacement sort the input file into run file
-        this.sort();
-        
+        this.rSort();
+
         // merge sort run file
         
     }
-    
+
     /**
      * Replacement sort on input file using an input buffer,
      * output buffer and an 8 block heap.
      */
-    public void sort() {
+    public void rSort() {
         
     }
+
 }
