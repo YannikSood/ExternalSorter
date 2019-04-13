@@ -218,24 +218,70 @@ public class HeapTest extends TestCase {
         heap.insert(rec2); // this should sift to root
         assertEquals(rec2, heap.remove(0));
     }
+    
+    /**
+     * Test removeMin method.
+     * Note: Requires siftDown and swapNodes to be functional.
+     */
+    public void testRemoveMinBaseCases() {
+        // empty case
+        assertNull(heap.removeMin());
+        
+        // last element case
+        heap.insert(rec1);
+        assertEquals(rec1, heap.removeMin()); // should swap with same pos
+    }
+    
+    /**
+     * Test removeMin method.
+     * Note: Requires siftDown and swapNodes to be functional.
+     */
+    public void testRemoveMinNoSifting() {
+        // going to use value1 value2 as other keys
+        heap.insert(rec1); // 113
+        heap.insert(rec2); // 16
+        heap.insert(new Record(value2, value2)); // 58
+        
+        // remove 16 so that 58 is placed at root
+        assertEquals(rec2, heap.removeMin());
+        
+        // should remove 58 because it will not have sifted down
+        // after removing 16
+        assertEquals(value2, heap.removeMin().getKey());
+    }
+    
+    /**
+     * Test removeMin method.
+     * Note: Requires siftDown and swapNodes to be functional.
+     */
+    public void testRemoveMinSifting() {
+        // going to use value1 value2 as other keys
+        heap.insert(rec1); // 113
+        heap.insert(rec2); // 16
+        heap.insert(new Record(value2, value2)); // 58
+        heap.insert(new Record(value1, value1)); // 74
+        
+        // used debugger and structure is as expected
+        // now let's removeMin() and cause sifting
+        heap.removeMin(); // returns 16
+        
+        // 113 will be root but should switch with 58
+        assertEquals(value2, heap.removeMin().getKey());
+    }
 
+    /**
+     * Test remove record at pos.
+     * Note: Requires swapNodes and update to be functional.
+     */
+    public void testRemove() {
+        
+    }
 
     public void testBuildHeap() {
         fail("Not yet implemented");
     }
 
-
-    public void testSiftdown() {
-        fail("Not yet implemented");
-    }
-
-
-    public void testRemovemax() {
-        fail("Not yet implemented");
-    }
-
-
-    public void testRemove() {
+    public void testSiftdDwn() {
         fail("Not yet implemented");
     }
 
