@@ -29,7 +29,7 @@ public class BinaryParserTest extends TestCase {
     public void testBinaryParser() {
         // constructor test
         assertFalse(par.getEOF());
-        assertEquals(0, par.getCurrByte());
+        assertEquals(0, par.getTotalByte());
 
         // test wrong file name
         Exception exception = null;
@@ -58,7 +58,7 @@ public class BinaryParserTest extends TestCase {
         try {
             temp = new BinaryParser("empty.bin"); // empty file
             assertFalse(temp.getEOF());
-            assertEquals(0, temp.getCurrByte());
+            assertEquals(0, temp.getTotalByte());
             
             temp.getBlock(); // ignoring the empty array it returns
         }
@@ -66,7 +66,7 @@ public class BinaryParserTest extends TestCase {
             exception = r;
             assertTrue(r instanceof EOFException);
             assertTrue(temp.getEOF());
-            assertEquals(0, temp.getCurrByte());
+            assertEquals(0, temp.getTotalByte());
         }
         
         assertNotNull(exception);
@@ -81,7 +81,7 @@ public class BinaryParserTest extends TestCase {
         
         try {
             assertFalse(par.getEOF());
-            assertEquals(0, par.getCurrByte());
+            assertEquals(0, par.getTotalByte());
             
             b = par.getBlock();
         }
@@ -91,7 +91,7 @@ public class BinaryParserTest extends TestCase {
             
             // but we still grabbed something
             assertNotNull(b);
-            assertEquals(88, par.getCurrByte());
+            assertEquals(88, par.getTotalByte());
             byte[] result = new byte[] {113, -80};
             assertEquals(result[0], b[0]);
             assertEquals(result[1], b[87]);
@@ -119,7 +119,7 @@ public class BinaryParserTest extends TestCase {
             assertNotNull(b);
             
             // we grabbed first block out of 2
-            assertEquals(8192, temp.getCurrByte());
+            assertEquals(8192, temp.getTotalByte());
             byte[] result = new byte[] {0, 98};
             assertEquals(result[0], b[0]);
             assertEquals(result[1], b[b.length - 1]);
@@ -147,7 +147,7 @@ public class BinaryParserTest extends TestCase {
             assertNotNull(b);
             
             // we grabbed first block out of 2
-            assertEquals(8192 * 2, temp.getCurrByte());
+            assertEquals(8192 * 2, temp.getTotalByte());
             byte[] result = new byte[] {-91, -118};
             assertEquals(result[0], b[0]);
             assertEquals(result[1], b[b.length - 1]);

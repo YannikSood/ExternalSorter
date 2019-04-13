@@ -20,7 +20,7 @@ public class Heap {
    }
 
     /**
-     *
+     * 
      *
      * @param byteArray     Array containing bytes from 1 block
      * @param n             Number of elements in the byte array

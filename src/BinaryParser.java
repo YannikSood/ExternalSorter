@@ -8,7 +8,8 @@ import java.util.Arrays;
 public class BinaryParser {
     private RandomAccessFile raf;
     private Boolean endFile;
-    private int currByte;
+    private int totalBytes;
+    private int currBytes;
 
     /**
      * 
@@ -20,14 +21,10 @@ public class BinaryParser {
         try {
             this.raf = new RandomAccessFile(fileName, "r");
             this.endFile = false;
-            this.currByte = 0;
+            this.totalBytes = 0;
         }
         catch (FileNotFoundException e) {
-            this.endFile = true;
-            
-            if (raf != null) {
-                this.raf.close();
-            }
+            return;
         }
     }
     
@@ -38,13 +35,16 @@ public class BinaryParser {
      * @throws IOException
      */
     public byte[] getBlock() throws IOException {
+        // initialize
         ByteBuffer bb = ByteBuffer.allocate(8192);
+        this.currBytes = 0;
 
         try {
             // grab a block of bytes
             for (int i = 0; i < 8192; i++) {
                 byte b = raf.readByte(); // will jump to catch if fail
-                currByte++;
+                this.totalBytes++;
+                currBytes++;
                 bb.put(b);
             }
 
@@ -57,9 +57,9 @@ public class BinaryParser {
 
         }
         catch (EOFException e) {
-            // this will run if EOF or not a full block
-            endFile = true;
-            raf.close();
+            // this will run if EOF
+            this.endFile = true;
+            this.raf.close();
             
             byte[] barr = bb.array();
             
@@ -68,14 +68,20 @@ public class BinaryParser {
             
             // this is O(currBytes), I think a better soln. is to pass
             // currBytes to buffer so that it knows how far to read
-            byte[] temp = new byte[this.currByte]; // still good even for 0
-            for (int i = 0; i < this.currByte; i++) {
-                temp[i] = barr[i];
-            }
             
-            System.out.println("not complete block or empty");
-            System.out.println(Arrays.toString(barr));
-            return temp;
+            if (this.currBytes == 0) { // there was nothing was read
+                System.out.println("there was nothing to read on call");
+                return null;
+            }
+            else { // partial block read
+                // use guaranteed open spot to store number of bytes read
+                barr[8191] = (byte)this.currBytes;
+                
+                // return a reference to this array
+                System.out.println("not a complete block");
+                System.out.println(Arrays.toString(barr));
+                return barr;
+            }
         }
     }
     
@@ -84,8 +90,8 @@ public class BinaryParser {
      * 
      * @return
      */
-    public int getCurrByte() {
-        return this.currByte;
+    public int getTotalByte() {
+        return this.totalBytes;
     }
     
     /**
@@ -96,4 +102,5 @@ public class BinaryParser {
     public boolean getEOF() {
         return this.endFile;
     }
+    
 }
