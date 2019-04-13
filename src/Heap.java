@@ -1,5 +1,3 @@
-import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
-
 /**
  * Heap class as implemented on Canvas, adjusted for minHeap.
  *
@@ -202,6 +200,7 @@ public class Heap {
      */
     public Record removeMin() {
         if (nHeap == 0) {
+            System.out.println("Heap Empty");
             return null;
         }
         
