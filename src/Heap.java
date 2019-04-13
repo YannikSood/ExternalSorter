@@ -25,32 +25,37 @@ public class Heap {
      * @param byteArray     Array containing bytes from 1 block
      * @param n             Number of elements in the byte array
      */
-    public Heap(Byte[] byteArray, int n) {
+    public Heap(byte[] byteArray, int n) {
         this.maxSize = 512 * 8;
         this.minHeap = new Record[maxSize];
         this.nHeap = 0;
 
         // create records
-        byte[] key = new byte[8];
-        byte[] value = new byte[8];
+        byte[] key;
+        byte[] value;
         int byteCount = 0;
-        int recordCount = 0;
         
         while (byteCount < n) {
+            // if you don't do this, it will reference to the same array
+            // in each record
+            key = new byte[8];
+            value = new byte[8];
+            
             // grab key
             for (int i = 0; i < 8; i++) {
-                key[byteCount] = byteArray[byteCount];
+                key[i] = byteArray[byteCount];
                 byteCount++;
             }
             
             // grab value
             for (int i = 0; i < 8; i++) {
-                value[byteCount] = byteArray[byteCount];
+                value[i] = byteArray[byteCount];
                 byteCount++;
             }
             
             // assign record
-            minHeap[recordCount++] = new Record(key, value);
+            minHeap[nHeap] = new Record(key, value);
+            nHeap++;
         }
         
         // heapify
@@ -190,7 +195,7 @@ public class Heap {
      * @param pos
      * @param newVale
      */
-    public void modift(int pos, Record newVale) {
+    public void modify(int pos, Record newVale) {
         if ((pos < 0) || (pos >= nHeap)) {
             return;
         }

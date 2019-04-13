@@ -21,7 +21,6 @@ public class BinaryParser {
             this.raf = new RandomAccessFile(fileName, "r");
             this.endFile = false;
             this.currByte = 0;
-            // this.getBlock(); // for testing
         }
         catch (FileNotFoundException e) {
             this.endFile = true;
@@ -63,6 +62,7 @@ public class BinaryParser {
             
             // we can use currByte to grab up to where data ends
             // if we need to
+            System.out.println("not full block");
             System.out.println(Arrays.toString(barr));
             return barr;
         }

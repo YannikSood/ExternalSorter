@@ -1,3 +1,4 @@
+import java.io.IOException;
 import student.TestCase;
 
 public class HeapTest extends TestCase {
@@ -152,6 +153,10 @@ public class HeapTest extends TestCase {
         assertEquals(2, heap.parent(5));
         assertEquals(2, heap.parent(6));
     }
+    
+    // Note: swapNodes must be functional for following insertion tests.
+    //
+    //
 
     /**
      * Test insertion to the end of heap.
@@ -287,7 +292,7 @@ public class HeapTest extends TestCase {
      * Test remove record at pos.
      * Note: Requires swapNodes and update to be functional.
      */
-    public void testRemoveBaseCases() {
+    public void testRemovePosBaseCases() {
         // invalid inputs
         assertNull(heap.remove(-1)); // below 0
         assertNull(heap.remove(2)); // larger than current size of heap
@@ -312,25 +317,87 @@ public class HeapTest extends TestCase {
      * Test remove record at pos.
      * Note: Requires swapNodes and update to be functional.
      */
-    public void testRemove() {
+    public void testRemovePos() {
+        // going to use value1 value2 as other keys
+        heap.insert(new Record(value2, value1)); // 58
+        heap.insert(rec2); // 16
+        heap.insert(rec2); // 16
+        heap.insert(new Record(value2, value2)); // 58
+        heap.insert(new Record(value1, value1)); // 74
         
+        // remove pos 1 will cause 74 to have to switch with 58
+        // should be the first 58 added with ID v1
+        assertEquals(value1, heap.remove(1).getValue());
         
+        // add another 16 and 12 (turned out to not be needed tho)
+        heap.insert(rec2);
+        heap.insert(new Record(new byte[] {12, 1, 1, 1, 1, 1, 1, -1},
+            value1));
+        
+        // remove pos 1 causes 16 (rec2) to switch with 58, but 58 will not move
+        assertEquals(rec2, heap.remove(1));
+        assertEquals(value2, heap.remove(1).getValue()); // remove that 58 v2
+        
+        // this function might not even be needed
+        // can't test sift upwards because unable to create un-heapified heap
     }
 
-    public void testBuildHeap() {
-        fail("Not yet implemented");
+    /**
+     * Test that contents loaded to heap via pre-load constructor are
+     * heapified. Unless we use constructor often, this may happen only once.
+     * 
+     * @throws IOException 
+     */
+    public void testMakeMinHeap() throws IOException {
+        // empty case, does nothing
+        assertEquals(0, heap.getSize());
+        heap.makeMinHeap();
+        
+        // 10 records loaded to heap
+        Heap tempHeap = new Heap(new byte[] {77, 0, 0, 0, 0, 0, 0, 0, 
+                                             1, 1, 1, 1, 1, 1, 1, 1,
+                                             68, 0, 0, 0, 0, 0, 0, 0,
+                                             2, 2, 2, 2, 2, 2, 2, 2,
+                                             96, 0, 0, 0, 0, 0, 0, 0,
+                                             3, 3, 3, 3, 3, 3, 3, 3,
+                                             78, 0, 0, 0, 0, 0, 0, 0,
+                                             4, 4, 4, 4, 4, 4, 4, 4,
+                                             22, 0, 0, 0, 0, 0, 0, 0,
+                                             5, 5, 5, 5, 5, 5, 5, 5,
+                                             23, 0, 0, 0, 0, 0, 0, 0,
+                                             6, 6, 6, 6, 6, 6, 6, 6,
+                                             28, 0, 0, 0, 0, 0, 0, 0,
+                                             7, 7, 7, 7, 7, 7, 7, 7,
+                                             35, 0, 0, 0, 0, 0, 0, 0,
+                                             8, 8, 8, 8, 8, 8, 8, 8,
+                                             20, 0, 0, 0, 0, 0, 0, 0,
+                                             9, 9, 9, 9, 9, 9, 9, 9,
+                                             79, 0, 0, 0, 0, 0, 0, 0,
+                                             10, 10, 10, 10, 10, 10, 10, 10,},
+                                                                        160);
+        
+        // if it was heapified correctly...
+        assertEquals(10, tempHeap.getSize());
+        byte[] checkResult = new byte[] {20, 22, 23, 35, 77,
+            96, 28, 68, 78, 79};
+        
+        for (int i = 9; i >= 0; i--) {
+            assertEquals(checkResult[i],
+                tempHeap.remove(tempHeap.getSize() - 1).getKey()[0]);
+        }
     }
 
-    public void testSiftdDwn() {
-        fail("Not yet implemented");
-    }
-
+    /**
+     * Modify the value of a node, probably also not needed.
+     * Note: Requires update to be working.
+     */
     public void testModify() {
         fail("Not yet implemented");
     }
 
     /**
-     * 
+     * Restore Heap property test, requires swapNodes and siftDown
+     * to be working.
      */
     public void testUpdate() {
         fail("Not yet implemented");
