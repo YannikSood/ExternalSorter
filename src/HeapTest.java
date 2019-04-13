@@ -89,7 +89,7 @@ public class HeapTest extends TestCase {
     /**
      * Test return position of the left child of pos
      */
-    public void testLeftchild() {
+    public void testLeftChild() {
         // invalid tests
         assertEquals(-2, heap.leftChild(-3)); // i decided to return -2
         
@@ -111,7 +111,7 @@ public class HeapTest extends TestCase {
     /**
      * Test return position of the right child of pos
      */
-    public void testRightchild() {
+    public void testRightChild() {
         // invalid tests
         assertEquals(-2, heap.rightChild(-2)); // i decided to return -2
         
@@ -220,6 +220,20 @@ public class HeapTest extends TestCase {
     }
     
     /**
+     * Test insertion to a Heap that is full.
+     */
+    public void testInsertFull() {
+        // build condition
+        for (int i = 0; i < 512*8; i++) {
+            heap.insert(rec1);
+        }
+        
+        assertEquals(512*8, heap.getSize());
+        heap.insert(rec2);
+        assertEquals(512*8, heap.getSize());
+    }
+    
+    /**
      * Test removeMin method.
      * Note: Requires siftDown and swapNodes to be functional.
      */
@@ -273,7 +287,33 @@ public class HeapTest extends TestCase {
      * Test remove record at pos.
      * Note: Requires swapNodes and update to be functional.
      */
+    public void testRemoveBaseCases() {
+        // invalid inputs
+        assertNull(heap.remove(-1)); // below 0
+        assertNull(heap.remove(2)); // larger than current size of heap
+        
+        // empty case
+        assertNull(heap.remove(0)); // not larger than 0
+        
+        // removing the last element
+        heap.insert(rec1);
+        assertEquals(1, heap.getSize());
+        
+        // some more case testing
+        assertNull(heap.remove(1)); // positive pos but equal to nHeap
+        assertNull(heap.remove(2)); // positive pos but larger than nHeap
+        
+        // actually remove now, it's the last element in Heap, no update req.
+        assertEquals(rec1, heap.remove(0));
+        assertEquals(0, heap.getSize());
+    }
+    
+    /**
+     * Test remove record at pos.
+     * Note: Requires swapNodes and update to be functional.
+     */
     public void testRemove() {
+        
         
     }
 
