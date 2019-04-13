@@ -35,10 +35,16 @@ public class ExternalSorter {
      */
     public ExternalSorter(String filename) throws IOException {
         par = new BinaryParser(filename);
-        minHeap = new Heap(par.getBlock(), 16384); // pre-load heap
-        inBuffer = new Buffer(par.getBlock()); // load buffer with 1 block
+        byte[] temp = par.getBlock(); // helps check before heapify
         
-        this.sort(); // start sorting until no more blocks to load
+        minHeap = new Heap(temp, 8192); // pre-load heap
+        inBuffer = new Buffer(par.getBlock()); // pre-load buffer with 1 block
+        
+        // replacement sort the input file into run file
+        this.sort();
+        
+        // merge sort run file
+        
     }
     
     /**

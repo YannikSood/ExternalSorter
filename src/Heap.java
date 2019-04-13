@@ -233,7 +233,7 @@ public class Heap {
     }
 
     /**
-     * Put element in its correct place (heapify). Equal value goes left.
+     * Put element in its correct place (heapify).
      *
      * @param pos   node to be positioned
      */
@@ -250,7 +250,7 @@ public class Heap {
                 j++; // index of child with lower value
             }
             
-            // does this if second child does not exist or is smaller/equal
+            // does this if second child does not exist or is greater/equal
             if (minHeap[j].compareTo(minHeap[pos]) >= 0) {
                 return; // the child j is greater than or equal to pos
             }
