@@ -78,7 +78,7 @@ public class ExternalSorter {
 
         // if more to load, pre-load the buffer with up to 1 block (if possible)
         if (!par.getEOF()) {
-            inBuffer = new Buffer(par.getBlock());
+            inBuffer = new Buffer(par.getBlock(), 8192);
             System.out.println("buffer pre-loaded as well");
         }
 

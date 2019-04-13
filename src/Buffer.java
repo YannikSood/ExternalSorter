@@ -30,7 +30,6 @@ public class Buffer {
 
     // -------------------------------------------------------------------------
 
-    
     /**
      * 
      * 
@@ -39,7 +38,7 @@ public class Buffer {
      */
     public Buffer(byte[] buff, int length) {
         this.size = 0;
-        
+
         if (buff != null && length <= BUFFER_LENGTH) {
             bufferArray = new byte[BUFFER_LENGTH];
             setArray(buff, length);
@@ -107,17 +106,17 @@ public class Buffer {
         if (size == 0) {
             return null;
         }
-        
+
         byte[] temp = new byte[16];
         int j = 0;
-        
+
         for (int i = removeIndex; i < removeIndex + 16; i++) {
             temp[j] = bufferArray[i];
             bufferArray[i] = 0;
             j++;
 
         }
-        
+
         removeIndex = removeIndex + 16;
         size = size - 16;
         return temp;
@@ -133,7 +132,7 @@ public class Buffer {
      */
     public int insert(byte[] bytes) {
         int x = 0;
-        if (size < BUFFER_LENGTH - 16) {
+        if (size < BUFFER_LENGTH - 16 && bytes.length + size < BUFFER_LENGTH) {
             for (int i = size; i < size + 16; i++) {
                 bufferArray[i] = bytes[x];
                 x++;
@@ -142,6 +141,7 @@ public class Buffer {
             return size;
         }
         return -1;
+
     }
 
 }

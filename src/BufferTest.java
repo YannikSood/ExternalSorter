@@ -30,7 +30,7 @@ public class BufferTest extends TestCase {
         assertEquals(buffer.getArray()[7], 8);
         assertEquals(buffer.getArray()[8], 9);
         assertEquals(buffer.getArray()[9], 10);
-        
+
         assertEquals(8192, buffer.getArray().length);
     }
 
@@ -103,7 +103,8 @@ public class BufferTest extends TestCase {
         assertEquals(y[14], 31);
         assertEquals(y[15], 32);
     }
-    
+
+
     /**
      * test constructor
      */
@@ -150,6 +151,31 @@ public class BufferTest extends TestCase {
         assertEquals(y[14], 31);
         assertEquals(y[15], 32);
         assertEquals(buffer.remove(), null);
+    }
+
+
+    /**
+     * test insert
+     */
+    public void testInsert() {
+        bytes = new byte[8192];
+        byte[] temp = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+            14, 15, 16 };
+        for (int i = 0; i < 8192; i++) {
+            bytes[i] = (byte)i;
+        }
+
+        buffer.setArray(bytes, 8192);
+        assertEquals(buffer.getSize(), 8192);
+        assertEquals(buffer.insert(temp), -1);
+        while (buffer.getSize() != 0) {
+            buffer.remove();
+        }
+        assertEquals(buffer.getSize(), 0);
+        assertEquals(16, buffer.insert(temp));
+        assertEquals(32, buffer.insert(temp));
+        assertEquals(-1, buffer.insert(bytes));
+        assertEquals(32, buffer.getSize());
     }
 
 }
