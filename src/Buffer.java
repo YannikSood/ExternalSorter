@@ -137,7 +137,7 @@ public class Buffer {
                 bufferArray[i] = bytes[x];
                 x++;
             }
-            size = size + 16;
+            size = size + bytes.length;
             return size;
         }
         return -1;
