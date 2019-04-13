@@ -24,7 +24,10 @@ public class BinaryParser {
         }
         catch (FileNotFoundException e) {
             this.endFile = true;
-            this.raf.close();
+            
+            if (raf != null) {
+                this.raf.close();
+            }
         }
     }
     
@@ -62,7 +65,7 @@ public class BinaryParser {
             
             // we can use currByte to grab up to where data ends
             // if we need to
-            System.out.println("not full block");
+            System.out.println("not complete block or empty");
             System.out.println(Arrays.toString(barr));
             return barr;
         }
