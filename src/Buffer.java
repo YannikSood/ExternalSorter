@@ -35,14 +35,14 @@ public class Buffer {
      * 
      * 
      * @param buff
+     * @param length
      */
-    public Buffer(byte[] buff) {
+    public Buffer(byte[] buff, int length) {
         this.size = 0;
         
-        if (buff != null && buff.length <= BUFFER_LENGTH) {
+        if (buff != null && length <= BUFFER_LENGTH) {
             bufferArray = new byte[BUFFER_LENGTH];
-            setArray(buff);
-            
+            setArray(buff, length);
             this.removeIndex = 0;
         }
     }
@@ -52,14 +52,16 @@ public class Buffer {
      * 
      * 
      * @param buff
+     * @param length
      */
-    public void setArray(byte[] buff) {
-        if (buff.length <= BUFFER_LENGTH) {
-            for (int i = 0; i < buff.length; i++) {
+    public void setArray(byte[] buff, int length) {
+        if (length <= BUFFER_LENGTH) {
+            for (int i = 0; i < length; i++) {
                 bufferArray[i] = buff[i];
             }
+            size = length;
+            removeIndex = 0;
         }
-        size = buff.length;
     }
 
 
@@ -80,31 +82,17 @@ public class Buffer {
 
 
     /**
-     * return the first 8 bytes
+     * return the first record
      * 
-     * @return the key (long)
+     * @return the record
      */
-    public byte[] getKey() {
-        byte[] temp = new byte[8];
-        for (int i = 0; i < 8; i++) {
-            temp[i] = bufferArray[i];
+    public byte[] getRecord() {
+        byte[] temp = new byte[16];
+        int x = 0;
+        for (int i = removeIndex; i < removeIndex + 16; i++) {
+            temp[x] = bufferArray[i];
+            x++;
         }
-
-        return temp;
-    }
-
-
-    /**
-     * Return the 8 bytes after the first 8
-     * 
-     * @return the value (double)
-     */
-    public byte[] getVal() {
-        byte[] temp = new byte[8];
-        for (int i = 0; i < 8; i++) {
-            temp[i] = bufferArray[i + 8];
-        }
-
         return temp;
     }
 
