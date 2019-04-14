@@ -114,6 +114,7 @@ public class ExternalSorter {
         System.out.println(minHeap.getSize());
         System.out.println(inBuffer.getSize());
         
+        RandomAccessFile raf = new RandomAccessFile("runFile.bin", "rw");
         int nDead = 0;
 
         // while heap is not empty, keep sorting
@@ -129,13 +130,12 @@ public class ExternalSorter {
                     // send the "removed" bytes to outBuffer
                     if (outBuffer.getSize() < 8192 ) { // not full
                         outBuffer.insert(minHeap.removeMin().getRecord());
+                        System.out.println(minHeap.getSize());
                     }
                     else { // full
                         // write to file to clear outBuffer
-                        
-                        
-                        // insert new record
-                        outBuffer.insert(minHeap.removeMin().getRecord());
+                        raf.write(outBuffer.clear());
+                        System.out.println("outBuff wrote to file2");
                     }
                 }
                 
@@ -151,11 +151,9 @@ public class ExternalSorter {
                 }
                 else { // full
                     // write to file to clear outBuffer
-                    RandomAccessFile raf = 
-                        new RandomAccessFile("runFile.bin", "w");
+                    raf.write(outBuffer.clear());
                     
-                    // insert new record
-                    outBuffer.insert(removedRec.getRecord());
+                    System.out.println("outBuff wrote to file");
                 }
 
                 if (inBuffer.getSize() > 0) { // not empty
@@ -185,15 +183,18 @@ public class ExternalSorter {
                     }
                     
                     // check if we need to re-load the input buffer
-                    if (inBuffer.getSize() == 0 && !par.getEOF()) {
+                    if (inBuffer.getSize() == 0) {
                         // reset dead nodes
                         minHeap.setSize(nDead + minHeap.getSize());
                         nDead = 0;
                         
                         byte[] temp = par.getBlock(); // grab up to 1 block
-                        inBuffer.setArray(temp, par.getCurrBytes());
+                        if (temp != null) {
+                            inBuffer.setArray(temp, par.getCurrBytes());
+                            System.out.println("buffer reloaded");
+                        }
                         
-                        System.out.println("buffer reloaded");
+                        
                     }
 
                 }

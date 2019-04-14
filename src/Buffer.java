@@ -158,5 +158,15 @@ public class Buffer {
         return -1;
 
     }
+    
+    /**
+     * Clear buffer and return the buffer's state prior to (this is for outBuff)
+     */
+    public byte[] clear() {
+        byte[] temp = this.bufferArray;
+        this.bufferArray = new byte[BUFFER_LENGTH];
+        this.size = 0;
+        return temp;
+    }
 
 }
