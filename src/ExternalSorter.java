@@ -147,6 +147,7 @@ public class ExternalSorter {
                 // send the "removed" bytes to outBuffer
                 if (outBuffer.getSize() < 8192 ) { // not full
                     printRecord(outBuffer.getSize(), removedRec);
+                    
                     outBuffer.insert(removedRec.getRecord());
                 }
                 else { // full
@@ -154,6 +155,7 @@ public class ExternalSorter {
                     raf.write(outBuffer.clear());
                     
                     printRecord(outBuffer.getSize(), removedRec);
+                    
                     outBuffer.insert(removedRec.getRecord());
                 }
 
