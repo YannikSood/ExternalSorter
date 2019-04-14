@@ -1,6 +1,6 @@
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.Arrays;
+import java.nio.ByteBuffer;
 
 /**
  * The ExternalSorter class is the brains of the operation.
@@ -146,15 +146,15 @@ public class ExternalSorter {
                    
                 // send the "removed" bytes to outBuffer
                 if (outBuffer.getSize() < 8192 ) { // not full
-                    outBuffer.insert(removedRec.getRecord());
                     printRecord(outBuffer.getSize(), removedRec);
+                    outBuffer.insert(removedRec.getRecord());
                 }
                 else { // full
                     // write to file to clear outBuffer
                     raf.write(outBuffer.clear());
                     
-                    outBuffer.insert(removedRec.getRecord());
                     printRecord(outBuffer.getSize(), removedRec);
+                    outBuffer.insert(removedRec.getRecord());
                 }
 
                 if (inBuffer.getSize() > 0) { // not empty
@@ -217,14 +217,18 @@ public class ExternalSorter {
      * @param i     indicator of current record being written
      */
     private void printRecord(int i, Record r) {
-        String rec = Arrays.toString(r.getRecord());
+        ByteBuffer keyTemp = ByteBuffer.wrap(r.getKey());
+        ByteBuffer valueTemp = ByteBuffer.wrap(r.getValue());
+        
+        long key = keyTemp.getLong();
+        double value = valueTemp.getDouble();
         
         if (i % 8192 == 0) {
             if (++numPrinted % 5 == 0) {
-                System.out.println(rec);
+                System.out.println(key + " " + value);
             }
             else {
-                System.out.print(rec + " ");
+                System.out.print(key + " " + value + " ");
             }
         }
     }
