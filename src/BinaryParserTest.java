@@ -5,8 +5,8 @@ import student.TestCase;
 /**
  * Test class for the file parser.
  * 
- * @author adaniel1
- *
+ * @author adaniel1 & yannik24
+ * @version 4.14.19
  */
 public class BinaryParserTest extends TestCase {
     BinaryParser par;
@@ -14,7 +14,7 @@ public class BinaryParserTest extends TestCase {
     /**
      * Setup for each test.
      * 
-     * @throws IOException 
+     * @throws IOException if wrong file name
      */
     public void setUp() throws IOException {
         this.par = new BinaryParser("incompleteBlock.bin");

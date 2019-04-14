@@ -3,8 +3,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 
+/**
+ * BinaryParser class is responsible for parsing the input file
+ * using RandomAccessFile.
+ * 
+ * @author      adaniel1 & yannik24
+ * @version     4.14.19
+ */
 public class BinaryParser {
     private RandomAccessFile raf;
     private Boolean endFile;
@@ -12,10 +18,10 @@ public class BinaryParser {
     private int currBytes;
 
     /**
+     * Default constructor initializes RAF and variables.
      * 
-     * 
-     * @param fileName
-     * @throws IOException
+     * @param fileName          Name of file to be read
+     * @throws IOException      If the file is not found
      */
     public BinaryParser(String fileName) throws IOException {
         try {
@@ -29,10 +35,11 @@ public class BinaryParser {
     }
     
     /**
+     * This method grabs one block's worth of bytes from the input file
+     * and returns the bytes in a byte array.
      * 
-     * 
-     * @return
-     * @throws IOException
+     * @return                  byte array with data
+     * @throws IOException      If end of file has been reached
      */
     public byte[] getBlock() throws IOException {
         // initialize
@@ -52,7 +59,6 @@ public class BinaryParser {
             byte[] barr = bb.array();
 
             // return a reference to this array
-            System.out.println(Arrays.toString(barr));
             return barr;
 
         }
@@ -70,22 +76,19 @@ public class BinaryParser {
             // currBytes to buffer so that it knows how far to read
             
             if (this.currBytes == 0) { // there was nothing was read
-                System.out.println("there was nothing to read on call");
                 return null;
             }
             else { // partial block read
                 // return a reference to this array
-                System.out.println("not a complete block");
-                System.out.println(Arrays.toString(barr));
                 return barr;
             }
         }
     }
     
     /**
-     * Return current byte position of parser.
+     * Return total bytes read by the parser during it's lifetime
      * 
-     * @return
+     * @return      total bytes read
      */
     public int getTotalBytes() {
         return this.totalBytes;
@@ -94,7 +97,7 @@ public class BinaryParser {
     /**
      * Return whether we have reached end of file or not.
      * 
-     * @return
+     * @return      end of file status
      */
     public boolean getEOF() {
         return this.endFile;
@@ -103,6 +106,8 @@ public class BinaryParser {
     /**
      * Return the number of bytes read for a single block grab.
      * Note: This resets to 0 every time getBlock() is called.
+     * 
+     * @return      bytes read for one block grab session
      */
     public int getCurrBytes() {
         return this.currBytes;

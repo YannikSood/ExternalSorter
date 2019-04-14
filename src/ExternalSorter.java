@@ -3,25 +3,12 @@ import java.io.RandomAccessFile;
 import java.util.Arrays;
 
 /**
- * The Replacement Selection Sort Method
- * 
- * * // On my honor: // // - I have not used source code obtained from
- * another student, // or any other unauthorized source, either modified
- * or // unmodified. // // - All source code and documentation used in
- * my program is // either my original work, or was derived by me from
- * the // source code published in the textbook for this course. // // -
- * I have not discussed coding details about this project with // anyone
- * other than my partner (in the case of a joint // submission),
- * instructor, ACM/UPE tutors or the TAs assigned // to this course. I
- * understand that I may discuss the concepts // of this program with
- * other students, and that another student // may help me debug my
- * program so long as neither of us writes // anything during the
- * discussion or modifies any computer file // during the discussion. I
- * have violated neither the spirit nor // letter of this restriction.
+ * The ExternalSorter class is the brains of the operation.
+ * It will conduct an replacement sort, following by a merge sort on
+ * an input file of 8N blocks.
  *
- * @author <Yannik Sood> <yannik24>
- * @version 04.10.19
- *
+ * @author <Yannik Sood> <yannik24>, <Daniel Almeida> <adaniel1>
+ * @version 04.14.19
  */
 public class ExternalSorter {
     private Buffer inBuffer;
@@ -31,10 +18,12 @@ public class ExternalSorter {
     private Record lastRemoved;
 
     /**
-     * Constructor
+     * Constructor initiates buffers, heap, parser and variables.
+     * Also responsible for making calls to start replacement sort
+     * and merge sort on files.
      * 
-     * @param filename
-     * @throws IOException
+     * @param filename      input file
+     * @throws IOException  if file name is incorrect or EOF
      */
     public ExternalSorter(String filename) throws IOException {
         // initialize parser, Heap and lastInsert
@@ -45,8 +34,6 @@ public class ExternalSorter {
         // pre-load heap with 8 blocks (if possible)
         while ((minHeap.getSize() < 512 * 8) && !par.getEOF()) {
             byte[] byteArray = par.getBlock(); // grab a block
-            System.out.println(par.getCurrBytes());
-            System.out.println(par.getTotalBytes());
 
             // create records
             if (byteArray != null) {
@@ -83,8 +70,6 @@ public class ExternalSorter {
         if (!par.getEOF()) {
             byte[] temp = par.getBlock(); // grab up to 1 block
             inBuffer = new Buffer(temp, par.getCurrBytes());
-
-            System.out.println("buffer pre-loaded as well");
         }
         else {
             inBuffer = new Buffer();
@@ -97,23 +82,16 @@ public class ExternalSorter {
         this.rSort();
 
         // merge sort run file
-
+        // this.mSort()
     }
 
     /**
      * Replacement sort on input file using an input buffer,
      * output buffer and an 8 block heap.
      * 
-     * @throws IOException 
+     * @throws IOException if file name incorrect or EOF.
      */
     public void rSort() throws IOException {
-        System.out.println("---------sorting------");
-        System.out.println("-----------------------");
-
-        System.out.println(par.getEOF());
-        System.out.println(minHeap.getSize());
-        System.out.println(inBuffer.getSize());
-        
         RandomAccessFile raf = new RandomAccessFile("runFile.bin", "rw");
         int nDead = 0;
         boolean rFlag = false; // helper (prevent double reset of nodes)
@@ -134,13 +112,10 @@ public class ExternalSorter {
                     if (outBuffer.getSize() < 8192 ) { // not full
                         this.lastRemoved = minHeap.getRoot();
                         outBuffer.insert(minHeap.removeMin().getRecord());
-                        
-                        System.out.println(minHeap.getSize());
                     }
                     else { // full
                         // write to file to clear outBuffer
                         raf.write(outBuffer.clear());
-                        System.out.println("outBuff wrote to file2");
                         
                         this.lastRemoved = minHeap.getRoot();
                         outBuffer.insert(minHeap.removeMin().getRecord());
@@ -149,8 +124,6 @@ public class ExternalSorter {
                 
                 // flush out leftover from outBuffer
                 raf.write(outBuffer.clear());
-                System.out.println("heap size: " + minHeap.getSize());
-                
             }
             else {
                 // "remove" except it's still in the array
@@ -164,8 +137,6 @@ public class ExternalSorter {
                 else { // full
                     // write to file to clear outBuffer
                     raf.write(outBuffer.clear());
-                    
-                    System.out.println("outBuff wrote to file");
                     
                     outBuffer.insert(removedRec.getRecord());
                 }
@@ -205,7 +176,6 @@ public class ExternalSorter {
                         byte[] temp = par.getBlock(); // grab up to 1 block
                         if (temp != null) {
                             inBuffer.setArray(temp, par.getCurrBytes());
-                            System.out.println("buffer reloaded");
                         }
                         else {
                             rFlag = true;
@@ -222,9 +192,6 @@ public class ExternalSorter {
         }
         
         raf.close();
-        System.out.println("done");
-        System.out.println(Arrays.toString(inBuffer.getArray()));
-        System.out.println(Arrays.toString(outBuffer.getArray()));
 
     }
 

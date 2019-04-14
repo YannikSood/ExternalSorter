@@ -1,24 +1,8 @@
 /**
- * A buffer. Read from and write to capabilities
- * 
+ * A buffer. Read from and write to capabilities.
  *
- * 
- * * // On my honor: // // - I have not used source code obtained from
- * another student, // or any other unauthorized source, either modified
- * or // unmodified. // // - All source code and documentation used in
- * my program is // either my original work, or was derived by me from
- * the // source code published in the textbook for this course. // // -
- * I have not discussed coding details about this project with // anyone
- * other than my partner (in the case of a joint // submission),
- * instructor, ACM/UPE tutors or the TAs assigned // to this course. I
- * understand that I may discuss the concepts // of this program with
- * other students, and that another student // may help me debug my
- * program so long as neither of us writes // anything during the
- * discussion or modifies any computer file // during the discussion. I
- * have violated neither the spirit nor // letter of this restriction.
- *
- * @author <Yannik Sood> <yannik24>
- * @version 04.10.19
+ * @author <Yannik Sood> <yannik24>, Daniel Almeida <adaniel1>
+ * @version 04.14.19
  *
  */
 public class Buffer {
@@ -31,7 +15,7 @@ public class Buffer {
     // -------------------------------------------------------------------------
 
     /**
-     * 
+     * Buffer constructor initializes buffer array and size.
     */
     public Buffer() {
         this.size = 0;
@@ -39,10 +23,10 @@ public class Buffer {
     }
     
     /**
+     * Buffer constructor for optional pre-loading of a specific byte array.
      * 
-     * 
-     * @param buff
-     * @param length
+     * @param buff      byte array to be loaded
+     * @param length    number of elements in buff
      */
     public Buffer(byte[] buff, int length) {
         this.size = 0;
@@ -55,10 +39,10 @@ public class Buffer {
     }
 
     /**
+     * This loads an array to the buffer.
      * 
-     * 
-     * @param buff
-     * @param length
+     * @param buff      array to be loaded into the buffer
+     * @param length    number of elements in the array
      */
     public void setArray(byte[] buff, int length) {
         if (length <= BUFFER_LENGTH) {
@@ -72,7 +56,9 @@ public class Buffer {
 
 
     /**
-     * @return reference to the buffer the array
+     * Return's this buffer's array.
+     * 
+     * @return      buffer array reference
      */
     public byte[] getArray() {
         return this.bufferArray;
@@ -80,6 +66,8 @@ public class Buffer {
 
 
     /**
+     * Return number of elements in the buffer currently.
+     * 
      * @return the current number of elements in buffer
      */
     public int getSize() {
@@ -87,6 +75,8 @@ public class Buffer {
     }
     
     /**
+     * Returns number of records which is the totalBytes / 16.
+     * 
      * @return num of pairs that make up a record
      */
     public int getNumRec() {
@@ -95,9 +85,9 @@ public class Buffer {
 
 
     /**
-     * return the first record
+     * Return the first record.
      * 
-     * @return the record
+     * @return the record in a byte array.
      */
     public byte[] getRecord() {
         byte[] temp = new byte[16];
@@ -112,7 +102,7 @@ public class Buffer {
 
     /**
      * Remove 16 bytes from the front
-     * of the buffer
+     * of the buffer.
      * 
      * @return bytes removed
      */
@@ -138,7 +128,7 @@ public class Buffer {
 
 
     /**
-     * insert 16 bytes at the front of the buffer
+     * Insert 16 bytes at the front of the buffer
      * 
      * @param bytes
      *            the bytes to insert
@@ -160,7 +150,10 @@ public class Buffer {
     }
     
     /**
-     * Clear buffer and return the buffer's state prior to (this is for outBuff)
+     * Clear buffer and return the buffer's 
+     * state prior to (this is for outBuff)
+     * 
+     * @return      previous contents before clear
      */
     public byte[] clear() {
         byte[] temp = this.bufferArray;

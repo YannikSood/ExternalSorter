@@ -1,6 +1,12 @@
 import java.io.IOException;
 import student.TestCase;
 
+/**
+ * Test cases for Heap.
+ * 
+ * @author adaniel1 (Daniel Almeida), yannik24 (Yannik Sood)
+ * @version 4.14.19
+ */
 public class HeapTest extends TestCase {
     private Heap heap;
     

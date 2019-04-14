@@ -17,12 +17,17 @@
 // anything during the discussion or modifies any computer file
 // during the discussion. I have violated neither the spirit nor
 // letter of this restriction.
+//
+// Daniel Almeida (adaniel1)
+// Yannik Sood (yannik24)
 
 import java.io.IOException;
 
 /**
+ * This is the main method responsible for initiating the sort process
+ * on an input file.
  * 
- *
+ * @author adaniel1 & yannik24
  */
 public class Externalsort {
     
@@ -37,7 +42,7 @@ public class Externalsort {
      * Main function reads user input file name and parses.
      * 
      * @param args          input arguments
-     * @throws IOException  exception check
+     * @throws IOException  exception check for file name
      */
     public static void main(String[] args) throws IOException {
         new ExternalSorter(args[0]);

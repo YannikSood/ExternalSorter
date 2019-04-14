@@ -1,23 +1,26 @@
 import student.TestCase;
 
 /**
- * @author yanniksood
- *
+ * Tests for the buffer class.
+ * 
+ * @author yanniksood <yannik24> & adaniel1 (Daniel Almeida)
+ * @version 4.14.19
  */
 public class BufferTest extends TestCase {
     private Buffer buffer;
     private byte[] bytes;
 
-
+    /**
+     * Default set up for each test case.
+     */
     public void setUp() {
 
         bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
         buffer = new Buffer(bytes, 10);
     }
 
-
     /**
-     * test constructor
+     * Test buffer constructor
      */
     public void testConstructor() {
         assertEquals(buffer.getArray()[0], 1);
@@ -41,7 +44,7 @@ public class BufferTest extends TestCase {
 
 
     /**
-     * test constructor
+     * Test buffer setArray() method
      */
     public void testSet() {
         bytes = new byte[] { 4, 3, 2 };
@@ -53,7 +56,7 @@ public class BufferTest extends TestCase {
 
 
     /**
-     * test constructor
+     * Test buffer return size method.
      */
     public void testSize() {
         bytes = new byte[] { 4, 3, 2 };
@@ -76,7 +79,7 @@ public class BufferTest extends TestCase {
 
 
     /**
-     * test constructor
+     * Test returning the front record
      */
     public void testGetRecord() {
         bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
@@ -123,7 +126,7 @@ public class BufferTest extends TestCase {
 
 
     /**
-     * test constructor
+     * Test removal of a record
      */
     public void testRemove() {
         bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
@@ -172,7 +175,7 @@ public class BufferTest extends TestCase {
 
 
     /**
-     * test insert
+     * Test insertion of a record
      */
     public void testInsert() {
         bytes = new byte[8192];

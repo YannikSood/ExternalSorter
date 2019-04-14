@@ -1,11 +1,17 @@
 import org.apache.commons.codec.binary.Hex;
 
+/**
+ * This class represents a Record. It can store byte arrays for key and value.
+ * 
+ * @author adaniel1 (Daniel Almeida), yannik24 (Yannik Sood)
+ * @version 4.14.19
+ */
 public class Record {
     private byte[] key;
     private byte[] value;
     
     /**
-     * Constructor
+     * Constructor initiates key and value byte arrays
      * 
      * @param Key key 
      * @param Value value
@@ -16,18 +22,18 @@ public class Record {
     }
     
     /**
-     * get the key
+     * get the record's key
      * 
-     * @return key
+     * @return      record's key byte array
      */
     public byte[] getKey() {
         return key;
     }
     
     /**
-     * Get the value
+     * Get the record's value
      * 
-     * @return value
+     * @return      record's value byte array
      */
     public byte[] getValue() {
         return value;
@@ -35,6 +41,8 @@ public class Record {
     
     /**
      * Get the complete Record in byte array.
+     * 
+     * @return      16 byte array with key and value
      */
     public byte[] getRecord() {
         byte[] temp = new byte[16];
@@ -50,7 +58,7 @@ public class Record {
     /**
      * Compares two records' key values for sorting.
      * 
-     * @param record    Record to be compared to
+     * @param rec    Record to be compared to
      * @return          If this record > rec then positive value
      *                  If this record < rec then negative value
      *                  If equal, then 0

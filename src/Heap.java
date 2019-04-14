@@ -1,8 +1,9 @@
 /**
- * Heap class as implemented on Canvas, adjusted for minHeap.
+ * Heap class as implemented on Canvas, adjusted for minHeap and replacement
+ * sorting.
  *
- * @author <Yannik Sood> <yannik24>
- * @version 04.10.19
+ * @author <Yannik Sood> <yannik24>, <Daniel Almeida> <adaniel1>
+ * @version 04.14.19
  *
  */
 public class Heap {
@@ -20,9 +21,9 @@ public class Heap {
    }
 
     /**
-     * 
+     * Creates a pre-loaded Heap.
      *
-     * @param byteArray     Array containing bytes from 1 block
+     * @param byteArray     Array containing bytes from up to n bytes
      * @param n             Number of elements in the byte array
      */
     public Heap(byte[] byteArray, int n) {
@@ -73,6 +74,8 @@ public class Heap {
     /**
      * Special case setSize() for replacement sorting of dead nodes.
      * WARNING: USE WITH CAUTION.
+     * 
+     * @param i     new size of Heap
      */
     public void setSize(int i) {
         this.nHeap = i;
@@ -81,8 +84,8 @@ public class Heap {
     /**
      * Return true if pos a leaf position, false otherwise
      *
-     * @param pos
-     * @return
+     * @param pos       position in Heap
+     * @return          true if pos is a leaf position
      */
     public boolean isLeaf(int pos) {
         return (pos >= nHeap / 2) && (pos < nHeap);
@@ -91,8 +94,8 @@ public class Heap {
     /**
      * Return position for left child of pos
      *
-     * @param pos
-     * @return
+     * @param pos       position in heap
+     * @return          index for left child of pos
      */
     public int leftChild(int pos) {
         if (pos < 0) {
@@ -108,8 +111,8 @@ public class Heap {
     /**
      * Return position for right child of pos
      * 
-     * @param pos
-     * @return
+     * @param pos       position in heap
+     * @return          index for right child of pos
      */
     public int rightChild(int pos) {
         if (pos < 0) {
@@ -125,8 +128,8 @@ public class Heap {
     /**
      * Return position for parent
      *
-     * @param pos
-     * @return
+     * @param pos       position in heap
+     * @return          index for parent of pos
      */
     public int parent(int pos) {
         if (pos <= 0) {
@@ -137,10 +140,9 @@ public class Heap {
     }
 
     /**
-     * Insert element in heap
-     *
-     * @param element
-     *            to insert
+     * Insert a record to the Heap
+     * 
+     * @param record    record to be inserted
      */
     public void insert(Record record) {
         if (nHeap >= maxSize) {
@@ -161,8 +163,8 @@ public class Heap {
     /**
      * Remove and return record at pos.
      * 
-     * @param pos
-     * @return
+     * @param pos   position in heap
+     * @return      record at position pos
      */
     public Record remove(int pos) {
         if ((pos < 0) || (pos >= nHeap)) {
@@ -183,8 +185,7 @@ public class Heap {
     /**
      * Return the root value of the heap.
      * 
-     * @param pos
-     * @return
+     * @return      record at root of heap.
      */
     public Record getRoot() {
             return minHeap[0]; // return root element
@@ -192,6 +193,8 @@ public class Heap {
     
     /**
      * Value of pos has been changed, restore heap property.
+     * 
+     * @param pos   position to be updated
      */
     private void update(int pos) {
         // if it's smaller than parent, push up
@@ -209,8 +212,8 @@ public class Heap {
     /**
      * Modify value at given position.
      * 
-     * @param pos
-     * @param newVale
+     * @param pos       position in heap to be modified
+     * @param newVale   record to replace position's record
      */
     public void modify(int pos, Record newVale) {
         if ((pos < 0) || (pos >= nHeap)) {
@@ -222,10 +225,10 @@ public class Heap {
     }
     
     /**
-     * Special case modify for replacement sorting.
+     * Special case modify for replacement sorting, does not call update.
      * 
-     * @param pos
-     * @param newVale
+     * @param pos       position in heap
+     * @param newVale   record to replace position's record
      */
     public void rSortMod(int pos, Record newVale) {
         minHeap[pos] = newVale;

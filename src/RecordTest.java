@@ -4,8 +4,8 @@ import student.TestCase;
 /**
  * Test class for Record.
  * 
- * @author adaniel1
- *
+ * @author adaniel1 & yannik24
+ * @version 4.14.19
  */
 public class RecordTest extends TestCase {
     private Record rec1;
@@ -13,7 +13,7 @@ public class RecordTest extends TestCase {
     private Record rec3;
     
     /**
-     * Setup class for Record
+     * Setup class for Record tests
      */
     public void setUp() {
         byte[] key1 = new byte[] {113, -49, 34, -48, 2, -20, 59, -64};
