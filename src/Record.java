@@ -1,3 +1,4 @@
+import java.nio.ByteBuffer;
 import org.apache.commons.codec.binary.Hex;
 
 /**
@@ -64,20 +65,18 @@ public class Record {
      *                  If equal, then 0
      */
     public int compareTo(Record rec) {
-        // conversions
-        char[] temp = Hex.encodeHex(this.key);
-        String thisKey = String.valueOf(temp);
+        long thisK = ByteBuffer.wrap(this.key).getLong();
         
-        //System.out.print("Key: ");
-        //System.out.println(thisKey);
-        
-        temp = Hex.encodeHex(rec.getKey());
-        String recordKey = String.valueOf(temp);
-        
-        //System.out.print("Value: ");
-        //System.out.println(recordKey);
+        long recK = ByteBuffer.wrap(rec.getKey()).getLong();
         
         // comparison
-        return thisKey.compareTo(recordKey);
+        if (thisK > recK) {
+            return 1;
+        }
+        else if (thisK < recK) {
+            return -1;
+        }
+        
+        return 0;
     }
 }
