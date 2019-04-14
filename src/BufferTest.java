@@ -32,6 +32,11 @@ public class BufferTest extends TestCase {
         assertEquals(buffer.getArray()[9], 10);
 
         assertEquals(8192, buffer.getArray().length);
+        
+        // test output buffer constructor
+        Buffer oBuff = new Buffer();
+        assertEquals(8192, oBuff.getArray().length);
+        assertEquals(0, oBuff.getSize());
     }
 
 

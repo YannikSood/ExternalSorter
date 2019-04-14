@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * The Replacement Selection Sort Method
@@ -84,6 +85,12 @@ public class ExternalSorter {
 
             System.out.println("buffer pre-loaded as well");
         }
+        else {
+            inBuffer = new Buffer();
+        }
+        
+        // initialize output buffer
+        outBuffer = new Buffer();
 
         // replacement sort the input file into run file
         this.rSort();
@@ -108,9 +115,23 @@ public class ExternalSorter {
             // "remove" except it's still in the array
             Record removedRec = minHeap.getRoot();
             this.lastRemoved = removedRec;
+            
+            // if this removal is cleaning the dead nodes, size needs to drop
+            if (inBuffer.getSize() == 0 && par.getEOF()) {
+                minHeap.decrement();
+            }
 
             // send the "removed" bytes to outBuffer
-            outBuffer.insert(removedRec.getRecord());
+            if (outBuffer.getSize() < 8192 ) { // not full
+                outBuffer.insert(removedRec.getRecord());
+            }
+            else { // full
+                // write to file to clear outBuffer
+                
+                
+                // insert new record
+                outBuffer.insert(removedRec.getRecord());
+            }
 
             if (inBuffer.getSize() > 0) {
                 byte[] rec = inBuffer.remove(); // grab the 16 bytes
@@ -125,12 +146,27 @@ public class ExternalSorter {
                 }
 
                 Record newRec = new Record(key, value);
+                
+                // if the next record is smaller, swap with end of heap
+                // and decrease it's size
+                if (newRec.compareTo(lastRemoved) < 0) {
+                    minHeap.removeMin();
+                    minHeap.rSortMod(minHeap.getSize(), newRec);
+                }
+                else {
+                    // insert the record to root and siftDown as needed.
+                    minHeap.modify(0, newRec);
+                }
 
-                // insert the record to root
-                minHeap.modify(0, newRec);
             }
-
+            
         }
+        
+        System.out.println("done");
+        
+        System.out.println(Arrays.toString(inBuffer.getArray()));
+        System.out.println(Arrays.toString(outBuffer.getArray()));
+        System.out.println(minHeap.getSize());
 
     }
 

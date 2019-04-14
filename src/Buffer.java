@@ -32,6 +32,14 @@ public class Buffer {
 
     /**
      * 
+    */
+    public Buffer() {
+        this.size = 0;
+        bufferArray = new byte[BUFFER_LENGTH];
+    }
+    
+    /**
+     * 
      * 
      * @param buff
      * @param length
@@ -45,7 +53,6 @@ public class Buffer {
             this.removeIndex = 0;
         }
     }
-
 
     /**
      * 

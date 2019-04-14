@@ -434,5 +434,23 @@ public class HeapTest extends TestCase {
         // root should be 5 now
         assertEquals(temp, tempHeap.removeMin().getKey());
     }
+    
+    /**
+     * Test replacement sort special case modify
+     */
+    public void testSpecialModify() {
+        heap.insert(rec1);
+        heap.insert(rec2);
+        
+        // rec2 is root
+        assertEquals(rec2, heap.getRoot());
+        
+        // root is rec1 now
+        heap.rSortMod(0, rec1);
+        
+        assertEquals(rec1, heap.removeMin());
+        assertEquals(rec1, heap.removeMin());
+        assertNull(heap.removeMin());
+    }
 
 }

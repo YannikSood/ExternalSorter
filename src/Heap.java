@@ -183,6 +183,14 @@ public class Heap {
     }
     
     /**
+     * Decrease the size (helpful for the replacement sort)
+     * (untested but trivial)
+     */
+    public void decrement() {
+        this.nHeap--;
+    }
+    
+    /**
      * Value of pos has been changed, restore heap property.
      */
     private void update(int pos) {
@@ -211,6 +219,16 @@ public class Heap {
         
         minHeap[pos] = newVale;
         update(pos);
+    }
+    
+    /**
+     * Special case modify for replacement sorting.
+     * 
+     * @param pos
+     * @param newVale
+     */
+    public void rSortMod(int pos, Record newVale) {
+        minHeap[pos] = newVale;
     }
     
     /**
