@@ -12,22 +12,23 @@ public class HeapTest extends TestCase {
     
     private Record rec1;
     private Record rec2;
-    
-    private byte[] key1;
+
     private byte[] value1;
-    private byte[] key2;
     private byte[] value2;
     
     /**
      * Set Up the test case
      */
     public void setUp() {
+        byte[] key1;
+        byte[] key2;
+        
         this.heap = new Heap(); // empty heap
         
         // some more realistic byte arrays for rec1 and rec2
-        this.key1 = new byte[] {113, -49, 34, -48, 2, -20, 59, -64};
+        key1 = new byte[] {113, -49, 34, -48, 2, -20, 59, -64};
         this.value1 = new byte[] {74, -1, 102, -38, 10, 58, 66, -3};
-        this.key2 = new byte[] {16, 61, 103, 74, 12, -77, 25, 65};
+        key2 = new byte[] {16, 61, 103, 74, 12, -77, 25, 65};
         this.value2 = new byte[] {58, 121, 114, 105, 108, 23, 64, -83};
         
         this.rec1 = new Record(key1, value1);
@@ -253,13 +254,13 @@ public class HeapTest extends TestCase {
      */
     public void testInsertFull() {
         // build condition
-        for (int i = 0; i < 512*8; i++) {
+        for (int i = 0; i < 512 * 8; i++) {
             heap.insert(rec1);
         }
         
-        assertEquals(512*8, heap.getSize());
+        assertEquals(512 * 8, heap.getSize());
         heap.insert(rec2);
-        assertEquals(512*8, heap.getSize());
+        assertEquals(512 * 8, heap.getSize());
     }
     
     /**
@@ -380,26 +381,25 @@ public class HeapTest extends TestCase {
         
         // 10 records loaded to heap
         Heap tempHeap = new Heap(new byte[] {77, 0, 0, 0, 0, 0, 0, 0, 
-                                             1, 1, 1, 1, 1, 1, 1, 1,
-                                             68, 0, 0, 0, 0, 0, 0, 0,
-                                             2, 2, 2, 2, 2, 2, 2, 2,
-                                             96, 0, 0, 0, 0, 0, 0, 0,
-                                             3, 3, 3, 3, 3, 3, 3, 3,
-                                             78, 0, 0, 0, 0, 0, 0, 0,
-                                             4, 4, 4, 4, 4, 4, 4, 4,
-                                             22, 0, 0, 0, 0, 0, 0, 0,
-                                             5, 5, 5, 5, 5, 5, 5, 5,
-                                             23, 0, 0, 0, 0, 0, 0, 0,
-                                             6, 6, 6, 6, 6, 6, 6, 6,
-                                             28, 0, 0, 0, 0, 0, 0, 0,
-                                             7, 7, 7, 7, 7, 7, 7, 7,
-                                             35, 0, 0, 0, 0, 0, 0, 0,
-                                             8, 8, 8, 8, 8, 8, 8, 8,
-                                             20, 0, 0, 0, 0, 0, 0, 0,
-                                             9, 9, 9, 9, 9, 9, 9, 9,
-                                             79, 0, 0, 0, 0, 0, 0, 0,
-                                             10, 10, 10, 10, 10, 10, 10, 10,},
-                                                                        160);
+            1, 1, 1, 1, 1, 1, 1, 1,
+            68, 0, 0, 0, 0, 0, 0, 0,
+            2, 2, 2, 2, 2, 2, 2, 2,
+            96, 0, 0, 0, 0, 0, 0, 0,
+            3, 3, 3, 3, 3, 3, 3, 3,
+            78, 0, 0, 0, 0, 0, 0, 0,
+            4, 4, 4, 4, 4, 4, 4, 4,
+            22, 0, 0, 0, 0, 0, 0, 0,
+            5, 5, 5, 5, 5, 5, 5, 5,
+            23, 0, 0, 0, 0, 0, 0, 0,
+            6, 6, 6, 6, 6, 6, 6, 6,
+            28, 0, 0, 0, 0, 0, 0, 0,
+            7, 7, 7, 7, 7, 7, 7, 7,
+            35, 0, 0, 0, 0, 0, 0, 0,
+            8, 8, 8, 8, 8, 8, 8, 8,
+            20, 0, 0, 0, 0, 0, 0, 0,
+            9, 9, 9, 9, 9, 9, 9, 9,
+            79, 0, 0, 0, 0, 0, 0, 0,
+            10, 10, 10, 10, 10, 10, 10, 10,}, 160);
         
         // if it was heapified correctly...
         assertEquals(10, tempHeap.getSize());
@@ -419,26 +419,25 @@ public class HeapTest extends TestCase {
     public void testModify() {
      // 10 records loaded to heap
         Heap tempHeap = new Heap(new byte[] {77, 0, 0, 0, 0, 0, 0, 0, 
-                                             1, 1, 1, 1, 1, 1, 1, 1,
-                                             68, 0, 0, 0, 0, 0, 0, 0,
-                                             2, 2, 2, 2, 2, 2, 2, 2,
-                                             96, 0, 0, 0, 0, 0, 0, 0,
-                                             3, 3, 3, 3, 3, 3, 3, 3,
-                                             78, 0, 0, 0, 0, 0, 0, 0,
-                                             4, 4, 4, 4, 4, 4, 4, 4,
-                                             22, 0, 0, 0, 0, 0, 0, 0,
-                                             5, 5, 5, 5, 5, 5, 5, 5,
-                                             23, 0, 0, 0, 0, 0, 0, 0,
-                                             6, 6, 6, 6, 6, 6, 6, 6,
-                                             28, 0, 0, 0, 0, 0, 0, 0,
-                                             7, 7, 7, 7, 7, 7, 7, 7,
-                                             35, 0, 0, 0, 0, 0, 0, 0,
-                                             8, 8, 8, 8, 8, 8, 8, 8,
-                                             20, 0, 0, 0, 0, 0, 0, 0,
-                                             9, 9, 9, 9, 9, 9, 9, 9,
-                                             79, 0, 0, 0, 0, 0, 0, 0,
-                                             10, 10, 10, 10, 10, 10, 10, 10,},
-                                                                        160);
+            1, 1, 1, 1, 1, 1, 1, 1,
+            68, 0, 0, 0, 0, 0, 0, 0,
+            2, 2, 2, 2, 2, 2, 2, 2,
+            96, 0, 0, 0, 0, 0, 0, 0,
+            3, 3, 3, 3, 3, 3, 3, 3,
+            78, 0, 0, 0, 0, 0, 0, 0,
+            4, 4, 4, 4, 4, 4, 4, 4,
+            22, 0, 0, 0, 0, 0, 0, 0,
+            5, 5, 5, 5, 5, 5, 5, 5,
+            23, 0, 0, 0, 0, 0, 0, 0,
+            6, 6, 6, 6, 6, 6, 6, 6,
+            28, 0, 0, 0, 0, 0, 0, 0,
+            7, 7, 7, 7, 7, 7, 7, 7,
+            35, 0, 0, 0, 0, 0, 0, 0,
+            8, 8, 8, 8, 8, 8, 8, 8,
+            20, 0, 0, 0, 0, 0, 0, 0,
+            9, 9, 9, 9, 9, 9, 9, 9,
+            79, 0, 0, 0, 0, 0, 0, 0,
+            10, 10, 10, 10, 10, 10, 10, 10,}, 160);
         
         // tests
         // this will actually cover the siftUp case in update as well!

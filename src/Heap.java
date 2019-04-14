@@ -276,8 +276,8 @@ public class Heap {
 
             // checking which node to pick
             if ((j < (nHeap - 1))
-                && (minHeap[j].compareTo(minHeap[j +1 ]) > 0)) {
-                    j++; // index of child with lower value
+                && (minHeap[j].compareTo(minHeap[j + 1]) > 0)) {
+                j++; // index of child with lower value
             }
 
             // does this if second child does not exist or is greater/equal

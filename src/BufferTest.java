@@ -41,7 +41,32 @@ public class BufferTest extends TestCase {
         assertEquals(8192, oBuff.getArray().length);
         assertEquals(0, oBuff.getSize());
     }
-
+    
+    /**
+     * Test buffer special cases
+     */
+    public void testConstructorSpecial() {
+        // all invalid
+        Buffer sOne = new Buffer(null, 8192);
+        Buffer sTwo = new Buffer(null, 8193);
+        Buffer sThree = new Buffer(bytes, 8193);
+        
+        assertNull(sOne.getArray());
+        assertNull(sTwo.getArray());
+        assertNull(sThree.getArray());
+    }
+    
+    /**
+     * Test setArray special cases
+     */
+    public void testSetArraySpecial() {
+        buffer.setArray(new byte[8192], 8192); // limit
+        assertEquals(8192, buffer.getSize());
+        
+        Buffer buff = new Buffer(bytes, 10);
+        buff.setArray(bytes, 8193); // invalid
+        assertEquals(10, buff.getSize());
+    }
 
     /**
      * Test buffer setArray() method
@@ -206,6 +231,16 @@ public class BufferTest extends TestCase {
         for (int k = 16; k < 32; k++) {
             assertEquals(buffer.getArray()[k], temp2[k - 16]);
         }
+    }
+    
+    /**
+     * This method tests clearing of the buffer array.
+     */
+    public void testClear() {
+        buffer.clear();
+        assertEquals(8192, buffer.getArray().length);
+        assertNotNull(buffer.getArray());
+        assertEquals(0, buffer.getSize());
     }
 
 }

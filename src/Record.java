@@ -1,5 +1,4 @@
 import java.nio.ByteBuffer;
-import org.apache.commons.codec.binary.Hex;
 
 /**
  * This class represents a Record. It can store byte arrays for key and value.
@@ -14,12 +13,12 @@ public class Record {
     /**
      * Constructor initiates key and value byte arrays
      * 
-     * @param Key key 
-     * @param Value value
+     * @param K     record key 
+     * @param V     record value
      */
-    public Record (byte[] K, byte[] V) {
-        this.key = K;
-        this.value = V;
+    public Record(byte[] k, byte[] v) {
+        this.key = k;
+        this.value = v;
     }
     
     /**
@@ -50,7 +49,7 @@ public class Record {
         
         for (int i = 0; i < 8; i++) {
             temp[i] = key[i];
-            temp[i+8] = value[i];
+            temp[i + 8] = value[i];
         }
         
         return temp;

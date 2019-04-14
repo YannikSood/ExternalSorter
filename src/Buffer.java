@@ -36,6 +36,9 @@ public class Buffer {
             setArray(buff, length);
             this.removeIndex = 0;
         }
+        else {
+            this.bufferArray = null; // indicate bad input
+        }
     }
 
     /**
