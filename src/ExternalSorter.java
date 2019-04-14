@@ -15,6 +15,7 @@ public class ExternalSorter {
     private Heap minHeap;
     private BinaryParser par;
     private Record lastRemoved;
+    private String file;
 
     /**
      * Constructor initiates buffers, heap, parser and variables.
@@ -24,10 +25,12 @@ public class ExternalSorter {
      * @param filename      input file
      * @throws IOException  if file name is incorrect or EOF
      */
-    public ExternalSorter(String filename) throws IOException {
+    public ExternalSorter(String fileName) throws IOException {
         // initialize parser, Heap and lastInsert
+        this.file = fileName; // save the file name
+        
         this.lastRemoved = null;
-        par = new BinaryParser(filename);
+        par = new BinaryParser(fileName);
         minHeap = new Heap(); // empty 8 block Heap
         
         // pre-load heap with 8 blocks (if possible)
@@ -91,7 +94,7 @@ public class ExternalSorter {
      * @throws IOException if file name incorrect or EOF.
      */
     public void rSort() throws IOException {
-        RandomAccessFile raf = new RandomAccessFile("tenBlocks.bin", "rw");
+        RandomAccessFile raf = new RandomAccessFile(file, "rw");
         int nDead = 0;
         boolean rFlag = false; // helper (prevent double reset of nodes)
 
