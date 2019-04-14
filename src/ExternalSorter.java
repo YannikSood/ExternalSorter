@@ -119,8 +119,19 @@ public class ExternalSorter {
                 
                 // remove them all using removeMin()
                 while (minHeap.getSize() > 0) {
-                    outBuffer.insert(minHeap.removeMin().getRecord());
+                    // send the "removed" bytes to outBuffer
+                    if (outBuffer.getSize() < 8192 ) { // not full
+                        outBuffer.insert(minHeap.removeMin().getRecord());
+                    }
+                    else { // full
+                        // write to file to clear outBuffer
+                        
+                        
+                        // insert new record
+                        outBuffer.insert(minHeap.removeMin().getRecord());
+                    }
                 }
+                
             }
             else {
                 // "remove" except it's still in the array
