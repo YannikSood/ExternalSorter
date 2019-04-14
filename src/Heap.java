@@ -69,6 +69,14 @@ public class Heap {
     public int getSize() {
         return this.nHeap;
     }
+    
+    /**
+     * Special case setSize() for replacement sorting of dead nodes.
+     * WARNING: USE WITH CAUTION.
+     */
+    public void setSize(int i) {
+        this.nHeap = i;
+    }
 
     /**
      * Return true if pos a leaf position, false otherwise
@@ -180,14 +188,6 @@ public class Heap {
      */
     public Record getRoot() {
             return minHeap[0]; // return root element
-    }
-    
-    /**
-     * Decrease the size (helpful for the replacement sort)
-     * (untested but trivial)
-     */
-    public void decrement() {
-        this.nHeap--;
     }
     
     /**

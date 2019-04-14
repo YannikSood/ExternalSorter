@@ -108,57 +108,67 @@ public class ExternalSorter {
         System.out.println("-----------------------");
 
         System.out.println(par.getEOF());
-        System.out.println(minHeap.getSize());
+        
+        int nDead = 0;
 
         // while heap is not empty, keep sorting
         while (minHeap.getSize() > 0) {
-            // "remove" except it's still in the array
-            Record removedRec = minHeap.getRoot();
-            this.lastRemoved = removedRec;
-            
-            // if this removal is cleaning the dead nodes, size needs to drop
+            // if this removal is cleaning the dead nodes
             if (inBuffer.getSize() == 0 && par.getEOF()) {
-                minHeap.decrement();
-            }
-
-            // send the "removed" bytes to outBuffer
-            if (outBuffer.getSize() < 8192 ) { // not full
-                outBuffer.insert(removedRec.getRecord());
-            }
-            else { // full
-                // write to file to clear outBuffer
+                minHeap.setSize(nDead + minHeap.getSize()); // dead nodes
                 
-                
-                // insert new record
-                outBuffer.insert(removedRec.getRecord());
+                // remove them all using removeMin()
+                while (minHeap.getSize() > 0) {
+                    outBuffer.insert(minHeap.removeMin().getRecord());
+                }
             }
-
-            if (inBuffer.getSize() > 0) {
-                byte[] rec = inBuffer.remove(); // grab the 16 bytes
-
-                // create the record
-                byte[] key = new byte[8];
-                byte[] value = new byte[8];
-
-                for (int i = 0; i < 8; i++) {
-                    key[i] = rec[i];
-                    value[i] = rec[i+8];
+            else {
+                // "remove" except it's still in the array
+                Record removedRec = minHeap.getRoot();
+                this.lastRemoved = removedRec;
+                   
+                // send the "removed" bytes to outBuffer
+                if (outBuffer.getSize() < 8192 ) { // not full
+                    outBuffer.insert(removedRec.getRecord());
+                }
+                else { // full
+                    // write to file to clear outBuffer
+                    
+                    
+                    // insert new record
+                    outBuffer.insert(removedRec.getRecord());
                 }
 
-                Record newRec = new Record(key, value);
-                
-                // if the next record is smaller, swap with end of heap
-                // and decrease it's size
-                if (newRec.compareTo(lastRemoved) < 0) {
-                    minHeap.removeMin();
-                    minHeap.rSortMod(minHeap.getSize(), newRec);
-                }
-                else {
-                    // insert the record to root and siftDown as needed.
-                    minHeap.modify(0, newRec);
-                }
+                if (inBuffer.getSize() > 0) {
+                    byte[] rec = inBuffer.remove(); // grab the 16 bytes
 
+                    // create the record
+                    byte[] key = new byte[8];
+                    byte[] value = new byte[8];
+
+                    for (int i = 0; i < 8; i++) {
+                        key[i] = rec[i];
+                        value[i] = rec[i+8];
+                    }
+
+                    Record newRec = new Record(key, value);
+                    
+                    // if the next record is smaller, swap with end of heap
+                    // and decrease it's size
+                    if (newRec.compareTo(lastRemoved) < 0) {
+                        minHeap.removeMin();
+                        minHeap.rSortMod(minHeap.getSize(), newRec);
+                        nDead++;
+                    }
+                    else {
+                        // insert the record to root and siftDown as needed.
+                        minHeap.modify(0, newRec);
+                    }
+
+                }
+                
             }
+            
             
         }
         

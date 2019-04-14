@@ -48,6 +48,15 @@ public class HeapTest extends TestCase {
     }
     
     /**
+     * Test setSize()
+     */
+    public void testSetSize() {
+        assertEquals(0, heap.getSize());
+        heap.setSize(5);
+        assertEquals(5, heap.getSize());
+    }
+    
+    /**
      * Trivial test for get root.
      */
     public void testGetRoot() {
