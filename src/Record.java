@@ -3,6 +3,7 @@ import org.apache.commons.codec.binary.Hex;
 public class Record {
     private byte[] key;
     private byte[] value;
+    private int index;
     
     /**
      * Constructor
@@ -13,6 +14,7 @@ public class Record {
     public Record (byte[] K, byte[] V) {
         this.key = K;
         this.value = V;
+        index = 0;
     }
     
     /**
@@ -31,6 +33,23 @@ public class Record {
      */
     public byte[] getValue() {
         return value;
+    }
+    
+    /**
+     * get the index
+     * 
+     * @return index
+     */
+    public int getIndex() {
+        return index;
+    }
+    
+    /**
+     * Set the index
+     * @param i new index
+     */
+    public void setIndex(int i) {
+        index = i;
     }
     
     /**

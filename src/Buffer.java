@@ -37,7 +37,8 @@ public class Buffer {
         this.size = 0;
         bufferArray = new byte[BUFFER_LENGTH];
     }
-    
+
+
     /**
      * 
      * 
@@ -53,6 +54,7 @@ public class Buffer {
             this.removeIndex = 0;
         }
     }
+
 
     /**
      * 
@@ -85,7 +87,8 @@ public class Buffer {
     public int getSize() {
         return this.size;
     }
-    
+
+
     /**
      * @return num of pairs that make up a record
      */
@@ -154,11 +157,12 @@ public class Buffer {
             size = size + bytes.length;
             return size;
         }
-        
+
         return -1;
 
     }
-    
+
+
     /**
      * Clear buffer and return the buffer's state prior to (this is for outBuff)
      */

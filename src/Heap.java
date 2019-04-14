@@ -27,7 +27,7 @@ public class Heap {
      */
     public Heap(byte[] byteArray, int n) {
         this.maxSize = 512 * 8;
-        this.minHeap = new Record[maxSize];
+        this.minHeap = new Record[n];
         this.nHeap = 0;
 
         // create records
