@@ -193,8 +193,10 @@ public class HeapTest extends TestCase {
         // test duplicate key scenario
         heap.insert(rec1);
         heap.insert(new Record(new byte[] {113, -49, 34, -48, 2, -20, 59, -64},
-            value2));
-        assertEquals(rec1, heap.remove(0)); // this should remove rec1
+            value1));
+        
+        // this should remove rec1
+        assertEquals(rec1, heap.remove(0));
     }
     
     /**
@@ -353,7 +355,7 @@ public class HeapTest extends TestCase {
         // remove pos 1 will cause 74 to have to switch with 58
         // should be the first 58 added with ID v1
         // covers the siftDown case for update
-        assertEquals(value1, heap.remove(1).getValue());
+        assertEquals(value2, heap.remove(1).getValue());
         
         // add another 16 and 12 (turned out to not be needed tho)
         heap.insert(rec2);
@@ -362,7 +364,7 @@ public class HeapTest extends TestCase {
         
         // remove pos 1 causes 16 (rec2) to switch with 58, but 58 will not move
         assertEquals(rec2, heap.remove(1));
-        assertEquals(value2, heap.remove(1).getValue()); // remove that 58 v2
+        assertEquals(value1, heap.remove(1).getValue()); // remove that 58 v2
         
         // this function might not even be needed
         // can't test sift upwards because unable to create un-heapified heap
@@ -380,31 +382,31 @@ public class HeapTest extends TestCase {
         heap.makeMinHeap();
         
         // 10 records loaded to heap
-        Heap tempHeap = new Heap(new byte[] {77, 0, 0, 0, 0, 0, 0, 0, 
-            1, 1, 1, 1, 1, 1, 1, 1,
-            68, 0, 0, 0, 0, 0, 0, 0,
+        Heap tempHeap = new Heap(new byte[] {1, 1, 1, 1, 1, 1, 1, 1, 
+            77, 0, 0, 0, 0, 0, 0, 0,
             2, 2, 2, 2, 2, 2, 2, 2,
-            96, 0, 0, 0, 0, 0, 0, 0,
+            68, 0, 0, 0, 0, 0, 0, 0,
             3, 3, 3, 3, 3, 3, 3, 3,
-            78, 0, 0, 0, 0, 0, 0, 0,
+            96, 0, 0, 0, 0, 0, 0, 0,
             4, 4, 4, 4, 4, 4, 4, 4,
-            22, 0, 0, 0, 0, 0, 0, 0,
+            78, 0, 0, 0, 0, 0, 0, 0,
             5, 5, 5, 5, 5, 5, 5, 5,
-            23, 0, 0, 0, 0, 0, 0, 0,
+            22, 0, 0, 0, 0, 0, 0, 0,
             6, 6, 6, 6, 6, 6, 6, 6,
-            28, 0, 0, 0, 0, 0, 0, 0,
+            23, 0, 0, 0, 0, 0, 0, 0,
             7, 7, 7, 7, 7, 7, 7, 7,
-            35, 0, 0, 0, 0, 0, 0, 0,
+            28, 0, 0, 0, 0, 0, 0, 0,
             8, 8, 8, 8, 8, 8, 8, 8,
-            20, 0, 0, 0, 0, 0, 0, 0,
+            35, 0, 0, 0, 0, 0, 0, 0,
             9, 9, 9, 9, 9, 9, 9, 9,
-            79, 0, 0, 0, 0, 0, 0, 0,
-            10, 10, 10, 10, 10, 10, 10, 10,}, 160);
+            20, 0, 0, 0, 0, 0, 0, 0,
+            10, 10, 10, 10, 10, 10, 10, 10,
+            79, 0, 0, 0, 0, 0, 0, 0}, 160);
         
         // if it was heapified correctly...
         assertEquals(10, tempHeap.getSize());
-        byte[] checkResult = new byte[] {20, 22, 23, 35, 77,
-            96, 28, 68, 78, 79};
+        byte[] checkResult = new byte[] {9, 5, 6, 8, 1,
+            3, 7, 2, 4, 10};
         
         for (int i = 9; i >= 0; i--) {
             assertEquals(checkResult[i],
@@ -418,35 +420,35 @@ public class HeapTest extends TestCase {
      */
     public void testModify() {
      // 10 records loaded to heap
-        Heap tempHeap = new Heap(new byte[] {77, 0, 0, 0, 0, 0, 0, 0, 
-            1, 1, 1, 1, 1, 1, 1, 1,
-            68, 0, 0, 0, 0, 0, 0, 0,
+        Heap tempHeap = new Heap(new byte[] {1, 1, 1, 1, 1, 1, 1, 1, 
+            77, 0, 0, 0, 0, 0, 0, 0,
             2, 2, 2, 2, 2, 2, 2, 2,
-            96, 0, 0, 0, 0, 0, 0, 0,
+            68, 0, 0, 0, 0, 0, 0, 0,
             3, 3, 3, 3, 3, 3, 3, 3,
-            78, 0, 0, 0, 0, 0, 0, 0,
+            96, 0, 0, 0, 0, 0, 0, 0,
             4, 4, 4, 4, 4, 4, 4, 4,
-            22, 0, 0, 0, 0, 0, 0, 0,
+            78, 0, 0, 0, 0, 0, 0, 0,
             5, 5, 5, 5, 5, 5, 5, 5,
-            23, 0, 0, 0, 0, 0, 0, 0,
+            22, 0, 0, 0, 0, 0, 0, 0,
             6, 6, 6, 6, 6, 6, 6, 6,
-            28, 0, 0, 0, 0, 0, 0, 0,
+            23, 0, 0, 0, 0, 0, 0, 0,
             7, 7, 7, 7, 7, 7, 7, 7,
-            35, 0, 0, 0, 0, 0, 0, 0,
+            28, 0, 0, 0, 0, 0, 0, 0,
             8, 8, 8, 8, 8, 8, 8, 8,
-            20, 0, 0, 0, 0, 0, 0, 0,
+            35, 0, 0, 0, 0, 0, 0, 0,
             9, 9, 9, 9, 9, 9, 9, 9,
-            79, 0, 0, 0, 0, 0, 0, 0,
-            10, 10, 10, 10, 10, 10, 10, 10,}, 160);
+            20, 0, 0, 0, 0, 0, 0, 0,
+            10, 10, 10, 10, 10, 10, 10, 10,
+            79, 0, 0, 0, 0, 0, 0, 0}, 160);
         
         // tests
         // this will actually cover the siftUp case in update as well!
         assertEquals(10, tempHeap.getSize());
         byte[] temp = new byte[] {5, 0, 0, 0, 0, 0, 0, 0};
-        tempHeap.modify(1, new Record(temp, value1));
+        tempHeap.modify(1, new Record(value1, temp));
         
         // root should be 5 now
-        assertEquals(temp, tempHeap.removeMin().getKey());
+        assertEquals(temp, tempHeap.removeMin().getValue());
     }
     
     /**

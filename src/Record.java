@@ -17,6 +17,7 @@ public class Record {
      * @param V     record value
      */
     public Record(byte[] k, byte[] v) {
+        // switched around because project specification unclear
         this.key = k;
         this.value = v;
     }

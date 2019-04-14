@@ -59,8 +59,8 @@ public class RecordTest extends TestCase {
         assertTrue(rec1.compareTo(rec2) > 0);
         assertTrue(rec2.compareTo(rec1) < 0);
         assertEquals(rec1.compareTo(rec1), 0);
-        assertTrue(rec1.compareTo(rec3) < 0);
-        assertTrue(rec3.compareTo(rec1) > 0);
+        assertTrue(rec1.compareTo(rec3) > 0);
+        assertTrue(rec3.compareTo(rec1) < 0);
         assertEquals(rec3.compareTo(rec3), 0);
     }
 
