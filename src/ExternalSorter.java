@@ -216,7 +216,7 @@ public class ExternalSorter {
      * 
      * @param i     indicator of current record being written
      */
-    public void printRecord(int i, Record r) {
+    private void printRecord(int i, Record r) {
         String rec = Arrays.toString(r.getRecord());
         
         if (i % 8192 == 0) {
