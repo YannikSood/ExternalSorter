@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.Arrays;
 
 /**
@@ -102,8 +103,10 @@ public class ExternalSorter {
     /**
      * Replacement sort on input file using an input buffer,
      * output buffer and an 8 block heap.
+     * 
+     * @throws IOException 
      */
-    public void rSort() {
+    public void rSort() throws IOException {
         System.out.println("---------sorting------");
         System.out.println("-----------------------");
 
@@ -117,7 +120,9 @@ public class ExternalSorter {
         while (minHeap.getSize() > 0) {
             // if this removal is cleaning the dead nodes
             if (inBuffer.getSize() == 0 && par.getEOF()) {
-                minHeap.setSize(nDead + minHeap.getSize()); // dead nodes
+                // reset dead nodes
+                minHeap.setSize(nDead + minHeap.getSize());
+                nDead = 0;
                 
                 // remove them all using removeMin()
                 while (minHeap.getSize() > 0) {
@@ -146,7 +151,8 @@ public class ExternalSorter {
                 }
                 else { // full
                     // write to file to clear outBuffer
-                    
+                    RandomAccessFile raf = 
+                        new RandomAccessFile("runFile.bin", "w");
                     
                     // insert new record
                     outBuffer.insert(removedRec.getRecord());
@@ -177,10 +183,19 @@ public class ExternalSorter {
                         // insert the record to root and siftDown as needed.
                         minHeap.modify(0, newRec);
                     }
-
-                }
-                else {
                     
+                    // check if we need to re-load the input buffer
+                    if (inBuffer.getSize() == 0 && !par.getEOF()) {
+                        // reset dead nodes
+                        minHeap.setSize(nDead + minHeap.getSize());
+                        nDead = 0;
+                        
+                        byte[] temp = par.getBlock(); // grab up to 1 block
+                        inBuffer.setArray(temp, par.getCurrBytes());
+                        
+                        System.out.println("buffer reloaded");
+                    }
+
                 }
                 
             }
