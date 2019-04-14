@@ -116,28 +116,40 @@ public class ExternalSorter {
         
         RandomAccessFile raf = new RandomAccessFile("runFile.bin", "rw");
         int nDead = 0;
+        boolean rFlag = false; // helper (prevent double reset of nodes)
 
         // while heap is not empty, keep sorting
         while (minHeap.getSize() > 0) {
             // if this removal is cleaning the dead nodes
             if (inBuffer.getSize() == 0 && par.getEOF()) {
                 // reset dead nodes
-                minHeap.setSize(nDead + minHeap.getSize());
-                nDead = 0;
+                if (!rFlag) {
+                    minHeap.setSize(nDead + minHeap.getSize());
+                    nDead = 0;
+                }
                 
                 // remove them all using removeMin()
                 while (minHeap.getSize() > 0) {
                     // send the "removed" bytes to outBuffer
                     if (outBuffer.getSize() < 8192 ) { // not full
+                        this.lastRemoved = minHeap.getRoot();
                         outBuffer.insert(minHeap.removeMin().getRecord());
+                        
                         System.out.println(minHeap.getSize());
                     }
                     else { // full
                         // write to file to clear outBuffer
                         raf.write(outBuffer.clear());
                         System.out.println("outBuff wrote to file2");
+                        
+                        this.lastRemoved = minHeap.getRoot();
+                        outBuffer.insert(minHeap.removeMin().getRecord());
                     }
                 }
+                
+                // flush out leftover from outBuffer
+                raf.write(outBuffer.clear());
+                System.out.println("heap size: " + minHeap.getSize());
                 
             }
             else {
@@ -154,6 +166,8 @@ public class ExternalSorter {
                     raf.write(outBuffer.clear());
                     
                     System.out.println("outBuff wrote to file");
+                    
+                    outBuffer.insert(removedRec.getRecord());
                 }
 
                 if (inBuffer.getSize() > 0) { // not empty
@@ -193,6 +207,9 @@ public class ExternalSorter {
                             inBuffer.setArray(temp, par.getCurrBytes());
                             System.out.println("buffer reloaded");
                         }
+                        else {
+                            rFlag = true;
+                        }
                         
                         
                     }
@@ -204,11 +221,10 @@ public class ExternalSorter {
             
         }
         
+        raf.close();
         System.out.println("done");
-        
         System.out.println(Arrays.toString(inBuffer.getArray()));
         System.out.println(Arrays.toString(outBuffer.getArray()));
-        System.out.println(minHeap.getSize());
 
     }
 
