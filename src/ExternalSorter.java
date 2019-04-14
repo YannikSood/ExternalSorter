@@ -91,7 +91,7 @@ public class ExternalSorter {
      * @throws IOException if file name incorrect or EOF.
      */
     public void rSort() throws IOException {
-        RandomAccessFile raf = new RandomAccessFile("runFile.bin", "rw");
+        RandomAccessFile raf = new RandomAccessFile("tenBlocks.bin", "rw");
         int nDead = 0;
         boolean rFlag = false; // helper (prevent double reset of nodes)
 
