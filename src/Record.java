@@ -13,8 +13,8 @@ public class Record {
     /**
      * Constructor initiates key and value byte arrays
      * 
-     * @param K     record key 
-     * @param V     record value
+     * @param k     record key 
+     * @param v     record value
      */
     public Record(byte[] k, byte[] v) {
         // switched around because project specification unclear

@@ -1,4 +1,3 @@
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import student.TestCase;
@@ -11,8 +10,6 @@ import student.TestCase;
  * @version 4.14.19
  */
 public class ExternalSorterTest extends TestCase {
-    private ExternalSorter eightBlocks;
-    private ExternalSorter lessEightBlocks;
     private RandomAccessFile rafExpected;
     private RandomAccessFile rafAfter;
     
@@ -32,7 +29,7 @@ public class ExternalSorterTest extends TestCase {
      */
     public void testReplacementEight() throws IOException {
         // sort
-        this.eightBlocks = new ExternalSorter("eightBlocks.bin");
+        new ExternalSorter("eightBlocks.bin");
         
         // after sort
         this.rafAfter = new RandomAccessFile("eightBlocks.bin", "r");
@@ -64,7 +61,7 @@ public class ExternalSorterTest extends TestCase {
      */
     public void testReplacementLessEight() throws IOException {
         // sort
-        this.lessEightBlocks = new ExternalSorter("incompleteBlock.bin");
+        new ExternalSorter("incompleteBlock.bin");
         
         // after sort
         this.rafAfter = new RandomAccessFile("incompleteBlock.bin", "r");
