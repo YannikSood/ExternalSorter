@@ -105,19 +105,31 @@ public class ExternalSorter {
 
         // while heap is not empty, keep sorting
         while (minHeap.getSize() > 0) {
-            // just remove on first call
-            if (this.lastRemoved == null) {
-                // "remove" except it's still in the array
-                Record temp = minHeap.getRoot();
-                this.lastRemoved = temp;
-                
-                // send the bytes to outBuffer
-                
-                
+            // "remove" except it's still in the array
+            Record removedRec = minHeap.getRoot();
+            this.lastRemoved = removedRec;
+
+            // send the "removed" bytes to outBuffer
+            outBuffer.insert(removedRec.getRecord());
+
+            if (inBuffer.getSize() > 0) {
+                byte[] rec = inBuffer.remove(); // grab the 16 bytes
+
+                // create the record
+                byte[] key = new byte[8];
+                byte[] value = new byte[8];
+
+                for (int i = 0; i < 8; i++) {
+                    key[i] = rec[i];
+                    value[i] = rec[i+8];
+                }
+
+                Record newRec = new Record(key, value);
+
+                // insert the record to root
+                minHeap.modify(0, newRec);
             }
-            else { // not the first removal
-                
-            }
+
         }
 
     }

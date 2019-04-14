@@ -78,6 +78,13 @@ public class Buffer {
     public int getSize() {
         return this.size;
     }
+    
+    /**
+     * @return num of pairs that make up a record
+     */
+    public int getNumRec() {
+        return this.size / 16;
+    }
 
 
     /**
