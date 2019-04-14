@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Arrays;
 
 /**
  * The ExternalSorter class is the brains of the operation.
@@ -16,6 +17,7 @@ public class ExternalSorter {
     private BinaryParser par;
     private Record lastRemoved;
     private String file;
+    private int numPrinted = 0;
 
     /**
      * Constructor initiates buffers, heap, parser and variables.
@@ -26,9 +28,11 @@ public class ExternalSorter {
      * @throws IOException  if file name is incorrect or EOF
      */
     public ExternalSorter(String fileName) throws IOException {
-        // initialize parser, Heap and lastInsert
+        // initalize some variables
         this.file = fileName; // save the file name
+        this.numPrinted = 0; // for printing
         
+        // initialize parser, Heap and lastInsert
         this.lastRemoved = null;
         par = new BinaryParser(fileName);
         minHeap = new Heap(); // empty 8 block Heap
@@ -112,14 +116,22 @@ public class ExternalSorter {
                 while (minHeap.getSize() > 0) {
                     // send the "removed" bytes to outBuffer
                     if (outBuffer.getSize() < 8192 ) { // not full
-                        this.lastRemoved = minHeap.getRoot();
+                        Record removedRec = minHeap.getRoot();
+                        this.lastRemoved = removedRec;
+                        
+                        printRecord(outBuffer.getSize(), removedRec);
+                        
                         outBuffer.insert(minHeap.removeMin().getRecord());
                     }
                     else { // full
                         // write to file to clear outBuffer
                         raf.write(outBuffer.clear());
                         
-                        this.lastRemoved = minHeap.getRoot();
+                        Record removedRec = minHeap.getRoot();
+                        this.lastRemoved = removedRec;
+                        
+                        printRecord(outBuffer.getSize(), removedRec);
+                        
                         outBuffer.insert(minHeap.removeMin().getRecord());
                     }
                 }
@@ -135,12 +147,14 @@ public class ExternalSorter {
                 // send the "removed" bytes to outBuffer
                 if (outBuffer.getSize() < 8192 ) { // not full
                     outBuffer.insert(removedRec.getRecord());
+                    printRecord(outBuffer.getSize(), removedRec);
                 }
                 else { // full
                     // write to file to clear outBuffer
                     raf.write(outBuffer.clear());
                     
                     outBuffer.insert(removedRec.getRecord());
+                    printRecord(outBuffer.getSize(), removedRec);
                 }
 
                 if (inBuffer.getSize() > 0) { // not empty
@@ -195,6 +209,24 @@ public class ExternalSorter {
         
         raf.close();
 
+    }
+    
+    /**
+     * Printing for program invocation and operation
+     * 
+     * @param i     indicator of current record being written
+     */
+    public void printRecord(int i, Record r) {
+        String rec = Arrays.toString(r.getRecord());
+        
+        if (i % 8192 == 0) {
+            if (++numPrinted % 5 == 0) {
+                System.out.println(rec);
+            }
+            else {
+                System.out.print(rec + " ");
+            }
+        }
     }
 
 }
