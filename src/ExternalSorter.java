@@ -108,6 +108,8 @@ public class ExternalSorter {
         System.out.println("-----------------------");
 
         System.out.println(par.getEOF());
+        System.out.println(minHeap.getSize());
+        System.out.println(inBuffer.getSize());
         
         int nDead = 0;
 
@@ -150,7 +152,7 @@ public class ExternalSorter {
                     outBuffer.insert(removedRec.getRecord());
                 }
 
-                if (inBuffer.getSize() > 0) {
+                if (inBuffer.getSize() > 0) { // not empty
                     byte[] rec = inBuffer.remove(); // grab the 16 bytes
 
                     // create the record
@@ -176,6 +178,9 @@ public class ExternalSorter {
                         minHeap.modify(0, newRec);
                     }
 
+                }
+                else {
+                    
                 }
                 
             }

@@ -146,7 +146,7 @@ public class Buffer {
      */
     public int insert(byte[] bytes) {
         int x = 0;
-        if (bytes.length + size < BUFFER_LENGTH) {
+        if (bytes.length + size <= BUFFER_LENGTH) {
             for (int i = size; i < size + 16; i++) {
                 bufferArray[i] = bytes[x];
                 x++;
@@ -154,6 +154,7 @@ public class Buffer {
             size = size + bytes.length;
             return size;
         }
+        
         return -1;
 
     }
