@@ -146,7 +146,6 @@ public class Heap {
      */
     public void insert(Record record) {
         if (nHeap >= maxSize) {
-            System.out.println("Heap Full");
             return;
         }
 
@@ -241,7 +240,6 @@ public class Heap {
      */
     public Record removeMin() {
         if (nHeap == 0) {
-            System.out.println("Heap Empty");
             return null;
         }
         

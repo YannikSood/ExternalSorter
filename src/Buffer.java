@@ -156,7 +156,12 @@ public class Buffer {
      * @return      previous contents before clear
      */
     public byte[] clear() {
-        byte[] temp = this.bufferArray;
+        // inefficiency of this copying grows as buffer has more data...
+        byte[] temp = new byte[this.size];
+        for (int i = 0; i < this.size; i++) {
+            temp[i] = this.bufferArray[i];
+        }
+        
         this.bufferArray = new byte[BUFFER_LENGTH];
         this.size = 0;
         return temp;
