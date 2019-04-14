@@ -65,16 +65,15 @@ public class Record {
      *                  If equal, then 0
      */
     public int compareTo(Record rec) {
-        long thisK = ByteBuffer.wrap(this.key).getLong();
-        
-        long recK = ByteBuffer.wrap(rec.getKey()).getLong();
+        long thisK = ByteBuffer.wrap(this.value).getLong();
+        long recK = ByteBuffer.wrap(rec.getValue()).getLong();
         
         // comparison
         if (thisK > recK) {
-            return 1;
+            return 5;
         }
         else if (thisK < recK) {
-            return -1;
+            return -4;
         }
         
         return 0;
