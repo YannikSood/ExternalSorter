@@ -13,18 +13,23 @@ import java.nio.ByteBuffer;
 public class ExternalSorter {
     private Buffer inBuffer;
     private Buffer outBuffer;
+    
     private Heap minHeap;
+    
     private BinaryParser par;
+    
     private Record lastRemoved;
     private String file;
     private int numPrinted = 0;
+    
+    private RandomAccessFile raf;
 
     /**
      * Constructor initiates buffers, heap, parser and variables.
      * Also responsible for making calls to start replacement sort
      * and merge sort on files.
      * 
-     * @param filename      input file
+     * @param fileName      input file
      * @throws IOException  if file name is incorrect or EOF
      */
     public ExternalSorter(String fileName) throws IOException {
@@ -98,7 +103,7 @@ public class ExternalSorter {
      * @throws IOException if file name incorrect or EOF.
      */
     public void rSort() throws IOException {
-        RandomAccessFile raf = new RandomAccessFile(file, "rw");
+        raf = new RandomAccessFile(file, "rw");
         int nDead = 0;
         boolean rFlag = false; // helper (prevent double reset of nodes)
 
@@ -113,51 +118,14 @@ public class ExternalSorter {
                 }
                 
                 // remove them all using removeMin()
-                while (minHeap.getSize() > 0) {
-                    // send the "removed" bytes to outBuffer
-                    if (outBuffer.getSize() < 8192 ) { // not full
-                        Record removedRec = minHeap.getRoot();
-                        this.lastRemoved = removedRec;
-                        
-                        printRecord(outBuffer.getSize(), removedRec);
-                        
-                        outBuffer.insert(minHeap.removeMin().getRecord());
-                    }
-                    else { // full
-                        // write to file to clear outBuffer
-                        raf.write(outBuffer.clear());
-                        
-                        Record removedRec = minHeap.getRoot();
-                        this.lastRemoved = removedRec;
-                        
-                        printRecord(outBuffer.getSize(), removedRec);
-                        
-                        outBuffer.insert(minHeap.removeMin().getRecord());
-                    }
-                }
+                cleanDead();
                 
                 // flush out leftover from outBuffer
                 raf.write(outBuffer.clear());
             }
             else {
                 // "remove" except it's still in the array
-                Record removedRec = minHeap.getRoot();
-                this.lastRemoved = removedRec;
-                   
-                // send the "removed" bytes to outBuffer
-                if (outBuffer.getSize() < 8192 ) { // not full
-                    printRecord(outBuffer.getSize(), removedRec);
-                    
-                    outBuffer.insert(removedRec.getRecord());
-                }
-                else { // full
-                    // write to file to clear outBuffer
-                    raf.write(outBuffer.clear());
-                    
-                    printRecord(outBuffer.getSize(), removedRec);
-                    
-                    outBuffer.insert(removedRec.getRecord());
-                }
+                remove();
 
                 if (inBuffer.getSize() > 0) { // not empty
                     byte[] rec = inBuffer.remove(); // grab the 16 bytes
@@ -168,7 +136,7 @@ public class ExternalSorter {
 
                     for (int i = 0; i < 8; i++) {
                         key[i] = rec[i];
-                        value[i] = rec[i+8];
+                        value[i] = rec[i + 8];
                     }
 
                     Record newRec = new Record(key, value);
@@ -232,6 +200,62 @@ public class ExternalSorter {
             else {
                 System.out.print(key + " " + value + " ");
             }
+        }
+    }
+    
+    /**
+     * This helper function clears dead nodes.
+     * 
+     * @throws IOException      if unable to write to file
+     */
+    private void cleanDead() throws IOException {
+        while (minHeap.getSize() > 0) {
+            // send the "removed" bytes to outBuffer
+            if (outBuffer.getSize() < 8192 ) { // not full
+                Record removedRec = minHeap.getRoot();
+                this.lastRemoved = removedRec;
+                
+                printRecord(outBuffer.getSize(), removedRec);
+                
+                outBuffer.insert(minHeap.removeMin().getRecord());
+            }
+            else { // full
+                // write to file to clear outBuffer
+                raf.write(outBuffer.clear());
+                
+                Record removedRec = minHeap.getRoot();
+                this.lastRemoved = removedRec;
+                
+                printRecord(outBuffer.getSize(), removedRec);
+                
+                outBuffer.insert(minHeap.removeMin().getRecord());
+            }
+        }
+    }
+    
+    /**
+     * This helper method "removes" the root node from Heap
+     * and sends it to the output buffer, writing to file as needed.
+     * 
+     * @throws IOException
+     */
+    private void remove() throws IOException {
+        Record removedRec = minHeap.getRoot();
+        this.lastRemoved = removedRec;
+           
+        // send the "removed" bytes to outBuffer
+        if (outBuffer.getSize() < 8192 ) { // not full
+            printRecord(outBuffer.getSize(), removedRec);
+            
+            outBuffer.insert(removedRec.getRecord());
+        }
+        else { // full
+            // write to file to clear outBuffer
+            raf.write(outBuffer.clear());
+            
+            printRecord(outBuffer.getSize(), removedRec);
+            
+            outBuffer.insert(removedRec.getRecord());
         }
     }
 

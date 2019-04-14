@@ -9,7 +9,7 @@ import student.TestCase;
  * @version 4.14.19
  */
 public class BinaryParserTest extends TestCase {
-    BinaryParser par;
+    private BinaryParser par;
     
     /**
      * Setup for each test.
